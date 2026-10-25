@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Route Infernale - FitRun Challenge</title>
+  <title>Le Marathon Infernal - FitRun Challenge</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
@@ -77,7 +77,7 @@
     <main class="flex-1 flex flex-col p-5 overflow-y-auto relative no-scrollbar">
 
       <!-- ===================================================================
-           1. ÉCRAN D'ACCUEIL - LA ROUTE INFERNALE
+           1. ÉCRAN D'ACCUEIL - LE MARATHON INFERNAL
            =================================================================== -->
       <section id="screen-jeu1-welcome" class="flex-1 flex flex-col justify-between py-2 space-y-6 bg-white">
         <div class="my-auto space-y-5 text-center">
@@ -86,12 +86,12 @@
           </div>
 
           <h1 class="text-3xl font-display font-black text-gray-900 uppercase tracking-tight leading-tight">
-            La Route Infernale
+            Le Marathon Infernal
           </h1>
 
           <div class="bg-gray-50 p-5 rounded-2xl border border-gray-200 text-left space-y-2 shadow-xs">
             <p class="text-xs sm:text-sm font-medium text-gray-700 leading-relaxed">
-              Bienvenue sur les pentes de la Route Infernale, un sentier impitoyable où chaque case mettra tes muscles et ton cardio à rude épreuve. Gare aux blessures et mauvaises stratégies de ravitaillement, un seul mot d'ordre : encaisser la douleur pour franchir la ligne d'arrivée.
+              Bienvenue sur les pentes du Marathon Infernal, un sentier impitoyable où chaque case mettra tes muscles et ton cardio à rude épreuve. Gare aux blessures et mauvaises stratégies de ravitaillement, un seul mot d'ordre : encaisser la douleur pour franchir la ligne d'arrivée.
             </p>
           </div>
         </div>
@@ -118,7 +118,7 @@
               <span class="text-xs font-bold text-gray-900">FULL BODY</span>
             </div>
             <h1 class="text-2xl font-display font-black text-gray-900 leading-tight">
-              JEU 1 - LA ROUTE INFERNALE
+              JEU 1 - LE MARATHON INFERNAL
             </h1>
             <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Configuration de la partie</p>
           </div>
@@ -208,7 +208,7 @@
       </section>
 
       <!-- ===================================================================
-           3. ÉCRAN DE JEU - LA ROUTE INFERNALE
+           3. ÉCRAN DE JEU - LE MARATHON INFERNAL
            =================================================================== -->
       <section id="screen-jeu1-game" class="hidden flex-1 flex flex-col justify-between py-2 text-center bg-white">
         <!-- HEADER DU JEU -->
@@ -233,7 +233,7 @@
           </div>
         </div>
 
-        <!-- ZONE CENTRALE D'ACTION / RESULTAT DÉ / MINUTEUR -->
+        <!-- ZONE CENTRALE D'ACTION / RESULTAT DÉ / MINUTEUR / POPUPS -->
         <div class="my-auto py-2 space-y-3">
           
           <!-- CONTENEUR ANIMATION / RÉSULTAT DÉ -->
@@ -296,7 +296,27 @@
             </div>
           </div>
 
-          <!-- CONTENEUR SPÉCIAL PÉNALITÉ (CASES 12 & 21) -->
+          <!-- CONTENEUR SPÉCIAL BLESSURE INTRO (CASES 35 & 37) -->
+          <div id="jeu1-injury-intro-box" class="hidden p-6 rounded-3xl bg-orange-50 border-4 border-orange-500 inline-block w-full max-w-xs shadow-lg space-y-3 transition-all">
+            <div id="jeu1-injury-icons" class="text-4xl">
+              💥🚑🩼
+            </div>
+            <p id="jeu1-injury-msg" class="text-sm font-black text-orange-950 leading-snug">
+              Chute dans la descente, tu t'es fait une belle entorse. Pour reprendre l'entrainement complète ce défi
+            </p>
+          </div>
+
+          <!-- CONTENEUR SPÉCIAL MESSAGE DE TRANSITION (CASES 37, 38, 39, 40, 41) -->
+          <div id="jeu1-message-box" class="hidden p-6 rounded-3xl bg-purple-50 border-4 border-purple-500 inline-block w-full max-w-xs shadow-lg space-y-3 transition-all">
+            <div id="jeu1-msg-icon" class="text-5xl">
+              🏅
+            </div>
+            <p id="jeu1-msg-text" class="text-sm font-black text-purple-950 leading-relaxed">
+              Message
+            </p>
+          </div>
+
+          <!-- CONTENEUR SPÉCIAL PÉNALITÉ (CASES 12, 21 & 36) -->
           <div id="jeu1-penalty-box" class="hidden p-6 rounded-3xl bg-rose-50 border-4 border-rose-600 inline-block w-full max-w-xs shadow-lg space-y-3 transition-all">
             <div id="jeu1-penalty-target-card" class="p-2.5 bg-black text-white rounded-xl border border-rose-300">
               <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest block">RETOUR CASE</span>
@@ -349,8 +369,11 @@
             <p class="text-2xl font-black text-gray-900 uppercase">Félicitations !</p>
           </div>
 
-          <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 text-sm text-gray-700 space-y-2 text-left">
-            <p id="victory-session-title" class="font-bold text-black text-center text-base">JEU 1 - La Route infernale</p>
+          <div class="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-sm text-gray-800 space-y-2 text-center">
+            <p id="victory-session-title" class="font-extrabold text-amber-950 text-base">JEU 1 - Le Marathon Infernal</p>
+            <p class="text-xs font-bold text-amber-900 leading-relaxed pt-1">
+              Bravo ! tu es venu au bout du Marathon Infernal. Tu peux savourer tous ces efforts
+            </p>
             <div id="victory-details-container" class="text-xs space-y-1.5 pt-1"></div>
           </div>
         </div>
@@ -392,8 +415,10 @@
     }
 
     function showVictory(workoutTitle, detailsHtml) {
-      document.getElementById('victory-session-title').textContent = workoutTitle || "JEU 1 - La Route infernale";
-      document.getElementById('victory-details-container').innerHTML = detailsHtml;
+      document.getElementById('victory-session-title').textContent = workoutTitle || "JEU 1 - Le Marathon Infernal";
+      if (detailsHtml) {
+        document.getElementById('victory-details-container').innerHTML = detailsHtml;
+      }
       showScreen('screen-victory');
     }
 
@@ -460,7 +485,7 @@
     }
 
     /* ===================================================================
-       3. LOGIQUE JEU 1 - LA ROUTE INFERNALE (CASES 1 À 30)
+       3. LOGIQUE JEU 1 - LE MARATHON INFERNAL (CASES 1 À 42)
        =================================================================== */
     const JEU1_DICE_EMOJIS = {
       1: { label: "+ 1", emoji: "🐌" },
@@ -531,11 +556,12 @@
       },
       12: {
         title: "Burpees",
-        type: "PENALITE_CLAQUAGE",
+        type: "PENALITE",
         reps: { debutant: 0, intermediaire: 8, confirme: 10, expert: 12, champion: 15 },
         targetCase: 6,
         targetTitle: "Mountain climbers",
         penaltyMessage: "Tu as négligé ton échauffement ! recul de 6 cases pour peaufiner ta mise en route",
+        badge: "🔻 - 6 🔻",
         emoji: "☠️"
       },
       13: {
@@ -581,11 +607,12 @@
       },
       21: {
         title: "Jump Squats",
-        type: "PENALITE_CONTRACTURE",
+        type: "PENALITE",
         reps: { debutant: 10, intermediaire: 15, confirme: 20, expert: 25, champion: 30 },
         targetCase: 14,
         targetTitle: "Patineurs",
         penaltyMessage: "Tu es victime d'une contracture, recul de 6 cases pour te reposer",
+        badge: "🔻 - 6 🔻",
         emoji: "🚑"
       },
       22: {
@@ -639,6 +666,96 @@
         side2: "jambe droite",
         durations: { debutant: 10, intermediaire: 15, confirme: 20, expert: 30, champion: 45 },
         customTitle: "Pont statique sur"
+      },
+      31: {
+        title: "Pont Dynamique sur une jambe",
+        type: "DOUBLE_DUREE",
+        side1: "jambe gauche",
+        side2: "jambe droite",
+        durations: { debutant: 10, intermediaire: 15, confirme: 20, expert: 30, champion: 45 },
+        customTitle: "Pont dynamique sur"
+      },
+      32: {
+        title: "Élévation mollets sur une jambe",
+        type: "DOUBLE_NUMERIQUE",
+        side1: "gauche",
+        side2: "droit",
+        customItemName: "Élévation mollet",
+        reps: { debutant: 5, intermediaire: 8, confirme: 10, expert: 12, champion: 15 }
+      },
+      33: {
+        title: "Pistol Squats",
+        type: "DOUBLE_NUMERIQUE",
+        side1: "gauche",
+        side2: "droit",
+        customItemName: "Pistol",
+        reps: { debutant: 5, intermediaire: 8, confirme: 10, expert: 12, champion: 15 }
+      },
+      34: {
+        title: "Squats Sumo",
+        type: "NUMERIQUE",
+        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 }
+      },
+      35: {
+        title: "Pompes",
+        type: "BLESSURE",
+        injuryIcons: "💥🚑🩼",
+        injuryMessage: "Chute dans la descente, tu t'es fait une belle entorse. Pour reprendre l'entrainement complète ce défi",
+        reps: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 }
+      },
+      36: {
+        title: "Gainage militaire",
+        type: "PENALITE_DUREE",
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        targetCase: 34,
+        targetTitle: "Squats Sumo",
+        penaltyMessage: "Suite à un débalisage sauvage, tu t'es perdu ! recul de 2 cases pour retrouver ton chemin",
+        badge: "🔻 - 2 🔻",
+        emoji: "🪫"
+      },
+      37: {
+        title: "Jump Squats",
+        type: "BLESSURE_MUR",
+        injuryIcons: "🧱",
+        injuryMessage: "C'était inéluctable, le fameux MUR du Marathon... T'es dans les cordes mais serre les dents, la ligne d'arrivée est proche !",
+        reps: { debutant: 15, intermediaire: 30, confirme: 45, expert: 60, champion: 75 },
+        nextMsg: "Impossible de relancer, tu n'as plus de jambes... A partir de maintenant, c'est dans la tête !",
+        nextMsgIcon: "🦵"
+      },
+      38: {
+        title: "Spiderman",
+        type: "DUREE_NEXT",
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        nextMsg: "Tu poursuis malgré les crampes... Félicitations, t'es un(e) champion(ne) !",
+        nextMsgIcon: "⚡"
+      },
+      39: {
+        title: "Chaise",
+        type: "DUREE_NEXT",
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        nextMsg: "Km 40 ! Tu es au bout du rouleau, mais bon tu ne peux pas abandonner maintenant",
+        nextMsgIcon: "🏃"
+      },
+      40: {
+        title: "Pompes",
+        type: "NUMERIQUE_NEXT",
+        reps: { debutant: "8 sur les genoux", intermediaire: "10 sur les genoux", confirme: "12", expert: "15", champion: "20" },
+        nextMsg: "Tu entends le speaker au loin, la ligne d'arrivée approche. Elle est pour toi la médaille !",
+        nextMsgIcon: "🏅"
+      },
+      41: {
+        title: "Élévation jambes 4 temps",
+        type: "DUREE_NEXT_STEPS",
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        step1Msg: "C'est la dernière ligne droite, 195 mètres de pur bonheur ! Tu voies enfin cette Arche d'arrivée…",
+        step1Icon: "🚩",
+        step2Msg: "Et pour fêter ça, tu fais la Grenouille 🤣",
+        step2Icon: "🐸"
+      },
+      42: {
+        title: "Sauts de Grenouille",
+        type: "NUMERIQUE_FINAL",
+        reps: { debutant: 8, intermediaire: 10, confirme: 12, expert: 15, champion: 20 }
       }
     };
 
@@ -647,6 +764,7 @@
     let jeu1CurrentCase = 1;
     let jeu1GameState = "CASE_1_PREPARE";
     let jeu1SubTour = 1;
+    let jeu1Step = 1; // pour cas multi-étapes (case 41)
     let jeu1TimerInterval = null;
     let jeu1TimeLeft = 0;
     let jeu1LastRoll = 1;
@@ -665,9 +783,8 @@
       }
       return {
         title: `EXERCICE CASE ${caseNum}`,
-        type: caseNum % 2 === 0 ? "NUMERIQUE" : "DUREE",
-        reps: { debutant: 10, intermediaire: 15, confirme: 20, expert: 25, champion: 30 },
-        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 }
+        type: "NUMERIQUE",
+        reps: { debutant: 10, intermediaire: 15, confirme: 20, expert: 25, champion: 30 }
       };
     }
 
@@ -690,7 +807,14 @@
         return `Pour recharger tes batteries réalise ${reps} ${caseInfo.title}`;
       }
 
-      if (caseInfo.type === "NUMERIQUE" || caseInfo.type === "PENALITE_CLAQUAGE" || caseInfo.type === "PENALITE_CONTRACTURE") {
+      if (caseInfo.type === "DOUBLE_NUMERIQUE") {
+        const reps = caseInfo.reps[levelKey];
+        const itemName = caseInfo.customItemName || caseInfo.title;
+        const side = subTour === 1 ? (caseInfo.side1 || "gauche") : (caseInfo.side2 || "droit");
+        return `Réaliser ${reps} ${itemName} ${side} pour un niveau ${levelLower}`;
+      }
+
+      if (["NUMERIQUE", "PENALITE", "BLESSURE", "BLESSURE_MUR", "NUMERIQUE_NEXT", "NUMERIQUE_FINAL"].includes(caseInfo.type)) {
         const repVal = caseInfo.reps[levelKey];
         let titleName = caseInfo.title;
         if (caseInfo.subtitle) {
@@ -705,7 +829,7 @@
         }
       }
 
-      if (caseInfo.type === "DUREE") {
+      if (["DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS"].includes(caseInfo.type)) {
         const durSec = caseInfo.durations[levelKey];
         const durFormatted = formatJeu1DurationText(durSec);
         const nameText = caseInfo.unitLabel || caseInfo.title;
@@ -732,6 +856,7 @@
 
       jeu1CurrentCase = 1;
       jeu1SubTour = 1;
+      jeu1Step = 1;
       jeu1GameState = "CASE_1_PREPARE";
 
       document.getElementById('jeu1-char-name').textContent = jeu1SelectedChar;
@@ -752,6 +877,8 @@
       const timerBox = document.getElementById('jeu1-timer-box');
       const numericBox = document.getElementById('jeu1-numeric-box');
       const prisonBox = document.getElementById('jeu1-prison-box');
+      const injuryBox = document.getElementById('jeu1-injury-intro-box');
+      const msgBox = document.getElementById('jeu1-message-box');
       const penaltyBox = document.getElementById('jeu1-penalty-box');
 
       const stateLabel = document.getElementById('jeu1-state-label');
@@ -766,6 +893,8 @@
       timerBox.classList.add('hidden');
       numericBox.classList.add('hidden');
       prisonBox.classList.add('hidden');
+      injuryBox.classList.add('hidden');
+      msgBox.classList.add('hidden');
       penaltyBox.classList.add('hidden');
       mainBtn.classList.remove('hidden');
       rollBtn.classList.add('hidden');
@@ -791,7 +920,7 @@
         mainBtn.className = "w-full py-5 px-6 bg-black hover:bg-gray-800 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
       }
       else if (jeu1GameState === "COUNTDOWN_3S") {
-        if (caseInfo.type === "DOUBLE_DUREE") {
+        if (caseInfo.type === "DOUBLE_DUREE" || caseInfo.type === "DOUBLE_NUMERIQUE") {
           const sideText = jeu1SubTour === 1 ? (caseInfo.side1 || "gauche") : (caseInfo.side2 || "droit");
           headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
         } else {
@@ -859,8 +988,21 @@
 
         captionBox.textContent = getJeu1ObjectiveText(jeu1CurrentCase, jeu1SelectedLevel, jeu1SubTour);
 
-        mainBtn.textContent = "Commencer le défi";
+        mainBtn.textContent = (caseInfo.type === "BLESSURE" || caseInfo.type === "BLESSURE_MUR") ? "Lancer le défi" : "Commencer le défi";
         mainBtn.className = "w-full py-5 px-6 bg-black hover:bg-gray-800 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+      }
+      else if (jeu1GameState === "INJURY_INTRO") {
+        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} - CASE BLESSURE`;
+        headerTitleBox.textContent = caseInfo.title;
+
+        injuryBox.classList.remove('hidden');
+        document.getElementById('jeu1-injury-icons').textContent = caseInfo.injuryIcons || "💥🚑🩼";
+        document.getElementById('jeu1-injury-msg').textContent = caseInfo.injuryMessage;
+
+        captionBox.textContent = "Attention : Défi blessure en cours !";
+
+        mainBtn.textContent = "Lancer le défi";
+        mainBtn.className = "w-full py-5 px-6 bg-orange-600 hover:bg-orange-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
       }
       else if (jeu1GameState === "CHALLENGE_VIEW") {
         headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
@@ -875,17 +1017,34 @@
           mainBtn.textContent = "Valider le défi";
           mainBtn.className = "w-full py-5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
         }
-        else if (caseInfo.type === "NUMERIQUE" || caseInfo.type === "PENALITE_CLAQUAGE" || caseInfo.type === "PENALITE_CONTRACTURE") {
+        else if (caseInfo.type === "DOUBLE_NUMERIQUE") {
+          numericBox.classList.remove('hidden');
+          const sideText = jeu1SubTour === 1 ? (caseInfo.side1 || "gauche") : (caseInfo.side2 || "droit");
+          headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
+
+          const objText = getJeu1ObjectiveText(jeu1CurrentCase, jeu1SelectedLevel, jeu1SubTour);
+          document.getElementById('jeu1-numeric-display').textContent = objText;
+          captionBox.textContent = objText;
+
+          if (jeu1SubTour === 1) {
+            mainBtn.textContent = `Valider le côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
+            mainBtn.className = "w-full py-5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+          } else {
+            mainBtn.textContent = "Valider le défi";
+            mainBtn.className = "w-full py-5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+          }
+        }
+        else if (["NUMERIQUE", "PENALITE", "BLESSURE", "BLESSURE_MUR", "NUMERIQUE_NEXT", "NUMERIQUE_FINAL"].includes(caseInfo.type)) {
           numericBox.classList.remove('hidden');
           const objText = getJeu1ObjectiveText(jeu1CurrentCase, jeu1SelectedLevel, jeu1SubTour);
 
           document.getElementById('jeu1-numeric-display').textContent = objText;
-          captionBox.textContent = `Objectif numérique : ${objText}`;
+          captionBox.textContent = objText;
 
           mainBtn.textContent = "Valider le défi";
           mainBtn.className = "w-full py-5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
         }
-        else if (caseInfo.type === "DUREE") {
+        else if (["DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS"].includes(caseInfo.type)) {
           timerBox.classList.remove('hidden');
           timerBox.className = "p-6 rounded-3xl bg-blue-50 border-4 border-blue-500 inline-block w-full max-w-xs shadow-lg transition-all";
           stateLabel.className = "text-xs font-black uppercase tracking-widest text-blue-600 block mb-1";
@@ -934,6 +1093,35 @@
         mainBtn.textContent = "Valider le défi";
         mainBtn.className = "w-full py-5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
       }
+      else if (jeu1GameState === "INTERMEDIATE_MSG_VIEW") {
+        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+        headerTitleBox.textContent = caseInfo.title;
+
+        msgBox.classList.remove('hidden');
+
+        if (caseInfo.type === "BLESSURE_MUR" || caseInfo.type === "DUREE_NEXT" || caseInfo.type === "NUMERIQUE_NEXT") {
+          document.getElementById('jeu1-msg-icon').textContent = caseInfo.nextMsgIcon || "🏃";
+          document.getElementById('jeu1-msg-text').textContent = caseInfo.nextMsg;
+          captionBox.textContent = "Bravo ! En route vers la suite.";
+          mainBtn.textContent = "Défi suivant";
+          mainBtn.className = "w-full py-5 px-6 bg-purple-600 hover:bg-purple-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+        }
+        else if (caseInfo.type === "DUREE_NEXT_STEPS") {
+          if (jeu1Step === 1) {
+            document.getElementById('jeu1-msg-icon').textContent = caseInfo.step1Icon || "🚩";
+            document.getElementById('jeu1-msg-text').textContent = caseInfo.step1Msg;
+            captionBox.textContent = "Presque arrivé !";
+            mainBtn.textContent = "Défi suivant";
+            mainBtn.className = "w-full py-5 px-6 bg-purple-600 hover:bg-purple-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+          } else if (jeu1Step === 2) {
+            document.getElementById('jeu1-msg-icon').textContent = caseInfo.step2Icon || "🐸";
+            document.getElementById('jeu1-msg-text').textContent = caseInfo.step2Msg;
+            captionBox.textContent = "Un dernier effort pour la route !";
+            mainBtn.textContent = "Lancer le défi";
+            mainBtn.className = "w-full py-5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+          }
+        }
+      }
       else if (jeu1GameState === "CHALLENGE_VALIDATED") {
         headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
         headerTitleBox.textContent = caseInfo.title;
@@ -953,6 +1141,7 @@
 
         document.getElementById('jeu1-penalty-target-num').textContent = caseInfo.targetCase;
         document.getElementById('jeu1-penalty-target-title').textContent = caseInfo.targetTitle;
+        document.getElementById('jeu1-penalty-badge').textContent = caseInfo.badge || "🔻 - 6 🔻";
         document.getElementById('jeu1-penalty-emoji').textContent = caseInfo.emoji || "☠️";
         document.getElementById('jeu1-penalty-text').textContent = caseInfo.penaltyMessage;
 
@@ -965,32 +1154,57 @@
 
     function handleJeu1MainAction() {
       initAudio();
+      const caseInfo = getJeu1CaseInfo(jeu1CurrentCase);
 
       if (jeu1GameState === "CASE_1_PREPARE") {
         startJeu1Countdown3s(() => {
-          const caseInfo = getJeu1CaseInfo(1);
           const dur = caseInfo.durations[jeu1SelectedLevel];
           startJeu1DurationTimer(dur);
         });
       }
       else if (jeu1GameState === "DICE_ROLLED") {
+        if (caseInfo.type === "BLESSURE" || caseInfo.type === "BLESSURE_MUR") {
+          jeu1GameState = "INJURY_INTRO";
+        } else {
+          jeu1GameState = "CHALLENGE_VIEW";
+        }
+        setupJeu1UI();
+      }
+      else if (jeu1GameState === "INJURY_INTRO") {
         jeu1GameState = "CHALLENGE_VIEW";
         setupJeu1UI();
       }
       else if (jeu1GameState === "CHALLENGE_VIEW") {
-        const caseInfo = getJeu1CaseInfo(jeu1CurrentCase);
-
-        if (caseInfo.type === "PENALITE_CLAQUAGE" || caseInfo.type === "PENALITE_CONTRACTURE") {
+        if (caseInfo.type === "PENALITE") {
           playIntermediaryGongSound();
           jeu1GameState = "PENALTY_SCREEN";
           setupJeu1UI();
         }
-        else if (caseInfo.type === "PRISON_FRINGALE" || caseInfo.type === "NUMERIQUE") {
+        else if (caseInfo.type === "DOUBLE_NUMERIQUE") {
+          playIntermediaryGongSound();
+          if (jeu1SubTour === 1) {
+            jeu1SubTour = 2;
+            setupJeu1UI();
+          } else {
+            jeu1GameState = "CHALLENGE_VALIDATED";
+            setupJeu1UI();
+          }
+        }
+        else if (caseInfo.type === "PRISON_FRINGALE" || caseInfo.type === "NUMERIQUE" || caseInfo.type === "BLESSURE") {
           playIntermediaryGongSound();
           jeu1GameState = "CHALLENGE_VALIDATED";
           setupJeu1UI();
         }
-        else if (caseInfo.type === "DUREE" || caseInfo.type === "DOUBLE_DUREE") {
+        else if (caseInfo.type === "BLESSURE_MUR" || caseInfo.type === "NUMERIQUE_NEXT") {
+          playIntermediaryGongSound();
+          jeu1GameState = "INTERMEDIATE_MSG_VIEW";
+          setupJeu1UI();
+        }
+        else if (caseInfo.type === "NUMERIQUE_FINAL") {
+          playFinalGongSound();
+          showVictory("JEU 1 - Le Marathon Infernal", "");
+        }
+        else if (["DUREE", "DOUBLE_DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS"].includes(caseInfo.type)) {
           startJeu1Countdown3s(() => {
             const dur = caseInfo.durations[jeu1SelectedLevel];
             startJeu1DurationTimer(dur);
@@ -999,14 +1213,48 @@
       }
       else if (jeu1GameState === "CHALLENGE_TIMER_FINISHED") {
         playIntermediaryGongSound();
-        jeu1GameState = "CHALLENGE_VALIDATED";
-        setupJeu1UI();
+
+        if (caseInfo.type === "PENALITE_DUREE") {
+          jeu1GameState = "PENALTY_SCREEN";
+          setupJeu1UI();
+        }
+        else if (caseInfo.type === "DUREE_NEXT" || caseInfo.type === "DUREE_NEXT_STEPS") {
+          jeu1Step = 1;
+          jeu1GameState = "INTERMEDIATE_MSG_VIEW";
+          setupJeu1UI();
+        }
+        else {
+          jeu1GameState = "CHALLENGE_VALIDATED";
+          setupJeu1UI();
+        }
+      }
+      else if (jeu1GameState === "INTERMEDIATE_MSG_VIEW") {
+        playIntermediaryGongSound();
+
+        if (caseInfo.type === "DUREE_NEXT_STEPS" && jeu1Step === 1) {
+          jeu1Step = 2;
+          setupJeu1UI();
+        }
+        else {
+          // Passer directement à la case suivante
+          jeu1CurrentCase++;
+          jeu1SubTour = 1;
+          jeu1Step = 1;
+
+          const nextCase = getJeu1CaseInfo(jeu1CurrentCase);
+          if (nextCase.type === "BLESSURE" || nextCase.type === "BLESSURE_MUR") {
+            jeu1GameState = "INJURY_INTRO";
+          } else {
+            jeu1GameState = "CHALLENGE_VIEW";
+          }
+          setupJeu1UI();
+        }
       }
       else if (jeu1GameState === "PENALTY_SCREEN") {
         playIntermediaryGongSound();
-        const caseInfo = getJeu1CaseInfo(jeu1CurrentCase);
         jeu1CurrentCase = caseInfo.targetCase || 6;
         jeu1SubTour = 1;
+        jeu1Step = 1;
         jeu1GameState = "CHALLENGE_VIEW";
         setupJeu1UI();
       }
@@ -1079,11 +1327,15 @@
       const timerBox = document.getElementById('jeu1-timer-box');
       const numericBox = document.getElementById('jeu1-numeric-box');
       const prisonBox = document.getElementById('jeu1-prison-box');
+      const injuryBox = document.getElementById('jeu1-injury-intro-box');
+      const msgBox = document.getElementById('jeu1-message-box');
       const penaltyBox = document.getElementById('jeu1-penalty-box');
 
       timerBox.classList.add('hidden');
       numericBox.classList.add('hidden');
       prisonBox.classList.add('hidden');
+      injuryBox.classList.add('hidden');
+      msgBox.classList.add('hidden');
       penaltyBox.classList.add('hidden');
       diceResContainer.classList.remove('hidden');
       diceAnimBox.classList.remove('hidden');
@@ -1102,12 +1354,17 @@
 
           jeu1CurrentCase += roll;
 
-          // RÈGLE SÉCURITÉ : Le niveau Débutant ne tombe JAMAIS sur la case 12 (pénalité)
+          // RÈGLE SÉCURITÉ : Le niveau Débutant ne tombe JAMAIS sur les cases 12 & 21 (pénalités)
           if (jeu1SelectedLevel === 'debutant' && jeu1CurrentCase === 12) {
             jeu1CurrentCase = 13;
           }
 
+          if (jeu1CurrentCase > 42) {
+            jeu1CurrentCase = 42;
+          }
+
           jeu1SubTour = 1;
+          jeu1Step = 1;
           jeu1GameState = "DICE_ROLLED";
 
           diceAnimBox.classList.add('hidden');
