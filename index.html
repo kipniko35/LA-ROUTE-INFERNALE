@@ -36,13 +36,13 @@
 
   <style>
     .phone-container {
-      max-width: 460px;
+      max-width: 480px;
       min-height: 100vh;
     }
     @media (min-width: 640px) {
       .phone-container {
         min-height: 880px;
-        height: 92vh;
+        height: 94vh;
       }
     }
     .no-scrollbar::-webkit-scrollbar {
@@ -51,6 +51,9 @@
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
+    }
+    .athlete-card-shadow {
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
   </style>
 </head>
@@ -64,7 +67,7 @@
       <div class="flex items-center space-x-2">
         <span class="w-3 h-3 rounded-full bg-black inline-block"></span>
         <span id="header-title" class="font-display font-bold text-xs uppercase tracking-wider text-gray-900 truncate max-w-[220px]">
-          4/4 • Extrême
+          FitRun • Marathon Infernal
         </span>
       </div>
 
@@ -81,7 +84,7 @@
            =================================================================== -->
       <section id="screen-jeu1-welcome" class="flex-1 flex flex-col justify-between py-2 space-y-6 bg-white">
         <div class="my-auto space-y-5 text-center">
-          <div class="inline-flex p-4 bg-gray-100 rounded-full text-4xl shadow-inner border border-gray-200">
+          <div class="inline-flex p-4 bg-gray-100 rounded-full text-5xl shadow-inner border border-gray-200">
             🎲
           </div>
 
@@ -91,131 +94,120 @@
 
           <div class="bg-gray-50 p-5 rounded-2xl border border-gray-200 text-left space-y-2 shadow-xs">
             <p class="text-xs sm:text-sm font-medium text-gray-700 leading-relaxed">
-              Bienvenue sur les pentes du Marathon Infernal, un sentier impitoyable où chaque case mettra tes muscles et ton cardio à rude épreuve. Gare aux blessures et mauvaises stratégies de ravitaillement, un seul mot d'ordre : encaisser la douleur pour franchir la ligne d'arrivée.
+              Bienvenue sur les pentes du Marathon Infernal, un parcours de 42 kilomètres où chaque étape mettra tes muscles et ton mental à rude épreuve. Choisis ton adversaire d'exception, surmonte le mur et franchis la ligne d'arrivée !
             </p>
           </div>
         </div>
 
         <div class="pt-2">
-          <button onclick="showScreen('screen-jeu1-intro')" class="w-full py-4 px-6 bg-black hover:bg-gray-800 text-white font-black text-lg rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide">
-            Lancer la Séance
+          <button onclick="goToAthleteSelect()" class="w-full py-4 px-6 bg-black hover:bg-gray-800 text-white font-black text-lg rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide">
+            Lancer la séance
           </button>
         </div>
       </section>
 
       <!-- ===================================================================
-           2. CHOIX DU PERSONNAGE ET DU NIVEAU
+           2. SÉLECTION DE MON ADVERSAIRE
            =================================================================== -->
-      <section id="screen-jeu1-intro" class="hidden flex-1 flex flex-col justify-between py-2 space-y-4 bg-white">
-        <div class="space-y-4">
-          <button onclick="showScreen('screen-jeu1-welcome')" class="text-xs font-bold text-gray-400 hover:text-gray-700 flex items-center gap-1">
+      <section id="screen-athlete-select" class="hidden flex-1 flex flex-col justify-between py-1 space-y-4 bg-white">
+        <div class="space-y-3">
+          <button onclick="showScreen('screen-jeu1-welcome')" class="text-xs font-bold text-gray-500 hover:text-black flex items-center gap-1 transition-colors">
             ← Retour à l'accueil
           </button>
 
-          <div class="space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="px-2.5 py-0.5 rounded-full bg-black text-white font-extrabold text-[10px]">4/4 • Extrême</span>
-              <span class="text-xs font-bold text-gray-900">FULL BODY</span>
-            </div>
-            <h1 class="text-2xl font-display font-black text-gray-900 leading-tight">
-              JEU 1 - LE MARATHON INFERNAL
+          <div class="space-y-0.5 border-b border-gray-100 pb-2">
+            <h1 class="text-2xl font-display font-black text-gray-900 tracking-tight uppercase">
+              Sélection de mon Adversaire
             </h1>
-            <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Configuration de la partie</p>
+            <p class="text-xs font-semibold text-gray-500">Choisissez qui défier sur cette course.</p>
           </div>
 
-          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-4 text-gray-800">
-            <h2 class="font-display font-extrabold text-sm uppercase tracking-wider text-black border-b border-gray-200 pb-1">
-              Paramètres de jeu
-            </h2>
+          <!-- LISTE DES ATHLÈTES / ADVERSAIRES -->
+          <div id="athletes-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[62vh] overflow-y-auto pr-1 no-scrollbar">
+            <!-- Injecté dynamiquement en JS -->
+          </div>
+        </div>
+      </section>
 
-            <!-- CHOIX DU PERSONNAGE -->
-            <div class="space-y-2">
-              <label class="block text-xs font-black uppercase tracking-wider text-gray-700">
-                👤 Choisissez votre personnage :
-              </label>
-              <div class="grid grid-cols-2 gap-2 text-xs">
-                <label class="p-2.5 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-black flex items-center gap-2 transition-all">
-                  <input type="radio" name="jeu1-char" value="Cassandre Beaugrand" checked class="accent-black">
-                  <span class="font-bold text-gray-900">Cassandre Beaugrand</span>
-                </label>
-                <label class="p-2.5 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-black flex items-center gap-2 transition-all">
-                  <input type="radio" name="jeu1-char" value="Agathe Guillemot" class="accent-black">
-                  <span class="font-bold text-gray-900">Agathe Guillemot</span>
-                </label>
-                <label class="p-2.5 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-black flex items-center gap-2 transition-all">
-                  <input type="radio" name="jeu1-char" value="Blandine L'Hirondel" class="accent-black">
-                  <span class="font-bold text-gray-900">Blandine L'Hirondel</span>
-                </label>
-                <label class="p-2.5 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-black flex items-center gap-2 transition-all">
-                  <input type="radio" name="jeu1-char" value="Courtney Dauwalter" class="accent-black">
-                  <span class="font-bold text-gray-900">Courtney Dauwalter</span>
-                </label>
-                <label class="p-2.5 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-black flex items-center gap-2 transition-all">
-                  <input type="radio" name="jeu1-char" value="Casquette Verte" class="accent-black">
-                  <span class="font-bold text-gray-900">Casquette Verte</span>
-                </label>
-                <label class="p-2.5 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-black flex items-center gap-2 transition-all">
-                  <input type="radio" name="jeu1-char" value="Jimmy Gressier" class="accent-black">
-                  <span class="font-bold text-gray-900">Jimmy Gressier</span>
-                </label>
-                <label class="p-2.5 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-black flex items-center gap-2 transition-all">
-                  <input type="radio" name="jeu1-char" value="Eliud Kipchoge" class="accent-black">
-                  <span class="font-bold text-gray-900">Eliud Kipchoge</span>
-                </label>
-                <label class="p-2.5 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-black flex items-center gap-2 transition-all">
-                  <input type="radio" name="jeu1-char" value="Kilian Jornet" class="accent-black">
-                  <span class="font-bold text-gray-900">Kilian Jornet</span>
-                </label>
+      <!-- ===================================================================
+           3. ÉCRAN CARTE DE JEU D'ATHLÈTE / ADVERSAIRE
+           =================================================================== -->
+      <section id="screen-athlete-card" class="hidden flex-1 flex flex-col justify-between py-1 space-y-4 bg-white">
+        <div class="space-y-3">
+          <button onclick="showScreen('screen-athlete-select')" class="text-xs font-bold text-gray-500 hover:text-black flex items-center gap-1 transition-colors">
+            ← Retour à la sélection
+          </button>
+
+          <!-- CARTE D'ATHLÈTE FORMAT EXIGÉ -->
+          <div class="bg-gray-50 p-5 rounded-3xl border-2 border-gray-900 athlete-card-shadow space-y-3 text-left relative overflow-hidden">
+            <div id="card-name" class="font-display font-black text-xl tracking-tight text-black uppercase leading-tight">
+              SHELLY-ANN FRASER-PRYCE
+            </div>
+
+            <div id="card-country" class="text-xs font-normal uppercase text-gray-700 tracking-wider">
+              JAMAÏQUE
+            </div>
+
+            <div id="card-discipline" class="text-xs sm:text-sm font-normal italic text-gray-800 leading-snug">
+              Sprint (100m / 200m)
+            </div>
+
+            <div id="card-level" class="text-lg leading-none py-1">
+              ⭐
+            </div>
+
+            <div id="card-description" class="text-xs sm:text-sm font-normal text-black leading-relaxed">
+              Description de l'athlète.
+            </div>
+
+            <div class="pt-1">
+              <div class="font-extrabold text-xs uppercase tracking-wider text-black">
+                Palmarès :
+              </div>
+              <div id="card-palmares" class="text-xs font-normal text-black leading-snug whitespace-pre-line mt-0.5">
+                Palmarès
               </div>
             </div>
 
-            <!-- CHOIX DU NIVEAU -->
-            <div class="space-y-2 pt-1 border-t border-gray-200">
-              <label class="block text-xs font-black uppercase tracking-wider text-gray-700">
-                🎯 Choisissez votre niveau :
-              </label>
-              <div class="grid grid-cols-1 gap-1.5 text-xs">
-                <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100">
-                  <input type="radio" name="jeu1-level" value="debutant" class="accent-black">
-                  <span class="font-bold text-gray-900">Débutant</span>
-                </label>
-                <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100">
-                  <input type="radio" name="jeu1-level" value="intermediaire" class="accent-black">
-                  <span class="font-bold text-gray-900">Intermédiaire</span>
-                </label>
-                <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100">
-                  <input type="radio" name="jeu1-level" value="confirme" checked class="accent-black">
-                  <span class="font-bold text-gray-900">Confirmé</span>
-                </label>
-                <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100">
-                  <input type="radio" name="jeu1-level" value="expert" class="accent-black">
-                  <span class="font-bold text-gray-900">Expert</span>
-                </label>
-                <label class="flex items-center gap-2 p-2 bg-white rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-100">
-                  <input type="radio" name="jeu1-level" value="champion" class="accent-black">
-                  <span class="font-bold text-gray-900">Champion</span>
-                </label>
+            <div class="pt-1 border-t border-gray-200">
+              <div id="card-rp" class="text-xs font-normal text-black leading-snug">
+                <span class="font-extrabold uppercase tracking-wider">RP :</span> Records
               </div>
             </div>
+          </div>
+
+          <!-- NIVEAU DE DIFFICULTÉ -->
+          <div class="bg-gray-100 p-3.5 rounded-2xl border border-gray-200 space-y-2">
+            <label class="block text-xs font-black uppercase tracking-wider text-gray-700">
+              🎯 Niveau de la séance :
+            </label>
+            <select id="select-card-level" class="w-full p-2.5 bg-white font-bold text-xs rounded-xl border border-gray-300 focus:outline-none focus:border-black">
+              <option value="debutant">Débutant</option>
+              <option value="intermediaire">Intermédiaire</option>
+              <option value="confirme" selected>Confirmé</option>
+              <option value="expert">Expert</option>
+              <option value="champion">Champion</option>
+            </select>
           </div>
         </div>
 
-        <div class="pt-2">
-          <button onclick="startJeu1Game()" class="w-full py-4 px-6 bg-black hover:bg-gray-800 text-white font-black text-lg rounded-2xl shadow-xl active:scale-95 transition-all uppercase">
-            Lancer le jeu 🎲
+        <!-- BOUTON JOUER -->
+        <div class="pt-1">
+          <button onclick="startGameFromCard()" class="w-full py-4 px-6 bg-black hover:bg-gray-800 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide">
+            Jouer 🎲
           </button>
         </div>
       </section>
 
       <!-- ===================================================================
-           3. ÉCRAN DE JEU - LE MARATHON INFERNAL
+           4. ÉCRAN DE JEU - LE MARATHON INFERNAL
            =================================================================== -->
-      <section id="screen-jeu1-game" class="hidden flex-1 flex flex-col justify-between py-2 text-center bg-white">
+      <section id="screen-jeu1-game" class="hidden flex-1 flex flex-col justify-between py-2 text-center bg-white relative">
         <!-- HEADER DU JEU -->
         <div class="space-y-2">
           <div class="flex items-center justify-between text-xs font-extrabold px-1">
-            <span id="jeu1-player-badge" class="px-2.5 py-1 rounded-full bg-gray-100 border border-gray-300 text-gray-800 flex items-center gap-1">
-              👤 <span id="jeu1-char-name">Kilian Jornet</span>
+            <span id="jeu1-player-badge" class="px-3 py-1 rounded-full bg-gray-100 border border-gray-300 text-gray-900 flex items-center gap-1.5 font-bold truncate max-w-[200px]">
+              👤 <span id="jeu1-char-name">Shelly-Ann Fraser-Pryce</span>
             </span>
             <span id="jeu1-level-badge" class="px-2.5 py-1 rounded-full bg-black text-white uppercase text-[10px]">
               Confirmé
@@ -223,9 +215,9 @@
           </div>
 
           <!-- ENCADRÉ DU HAUT DE CASE -->
-          <div id="jeu1-case-header-box" class="p-3 bg-gray-900 text-white rounded-2xl shadow-md border-2 border-black space-y-0.5">
-            <span id="jeu1-case-num-badge" class="font-display font-black text-lg tracking-wider block text-amber-400">
-              CASE N° 1 - CASE DE DÉPART
+          <div id="jeu1-case-header-box" class="p-3.5 bg-gray-900 text-white rounded-2xl shadow-md border-2 border-black space-y-0.5">
+            <span id="jeu1-case-num-badge" class="font-display font-black text-base sm:text-lg tracking-wider block text-amber-400 uppercase">
+              1er kilo - Départ prudent
             </span>
             <h2 id="jeu1-case-title" class="font-display font-black text-xl uppercase leading-tight text-white">
               Gainage classique
@@ -281,7 +273,7 @@
             </div>
           </div>
 
-          <!-- CONTENEUR SPÉCIAL PRISON (CASE 22 FRINGALE) -->
+          <!-- CONTENEUR SPÉCIAL PRISON (KM 22 FRINGALE) -->
           <div id="jeu1-prison-box" class="hidden p-6 rounded-3xl bg-amber-50 border-4 border-amber-500 inline-block w-full max-w-xs shadow-lg space-y-3 transition-all">
             <span class="text-xs font-black uppercase tracking-widest text-amber-700 block">
               🔋 FRINGALE
@@ -296,17 +288,17 @@
             </div>
           </div>
 
-          <!-- CONTENEUR SPÉCIAL BLESSURE INTRO (CASES 35 & 37) -->
+          <!-- CONTENEUR SPÉCIAL BLESSURE INTRO (KM 30, KM 35) -->
           <div id="jeu1-injury-intro-box" class="hidden p-6 rounded-3xl bg-orange-50 border-4 border-orange-500 inline-block w-full max-w-xs shadow-lg space-y-3 transition-all">
             <div id="jeu1-injury-icons" class="text-4xl">
               💥🚑🩼
             </div>
             <p id="jeu1-injury-msg" class="text-sm font-black text-orange-950 leading-snug">
-              Chute dans la descente, tu t'es fait une belle entorse. Pour reprendre l'entrainement complète ce défi
+              Chute ! Tu as voulu éviter un concurrent et tu t'es fait une entorse. Pour soigner ta cheville douloureuse, complète ce défi
             </p>
           </div>
 
-          <!-- CONTENEUR SPÉCIAL MESSAGE DE TRANSITION (CASES 37, 38, 39, 40, 41) -->
+          <!-- CONTENEUR SPÉCIAL MESSAGE DE TRANSITION (KM 38, 39, 40, 41) -->
           <div id="jeu1-message-box" class="hidden p-6 rounded-3xl bg-purple-50 border-4 border-purple-500 inline-block w-full max-w-xs shadow-lg space-y-3 transition-all">
             <div id="jeu1-msg-icon" class="text-5xl">
               🏅
@@ -316,11 +308,11 @@
             </p>
           </div>
 
-          <!-- CONTENEUR SPÉCIAL PÉNALITÉ (CASES 12, 21 & 36) -->
+          <!-- CONTENEUR SPÉCIAL PÉNALITÉ (KM 12, KM 21 & KM 36) -->
           <div id="jeu1-penalty-box" class="hidden p-6 rounded-3xl bg-rose-50 border-4 border-rose-600 inline-block w-full max-w-xs shadow-lg space-y-3 transition-all">
             <div id="jeu1-penalty-target-card" class="p-2.5 bg-black text-white rounded-xl border border-rose-300">
-              <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest block">RETOUR CASE</span>
-              <span id="jeu1-penalty-target-num" class="text-3xl font-black block leading-none my-1">6</span>
+              <span id="jeu1-penalty-target-badge-label" class="text-[10px] font-bold text-amber-400 uppercase tracking-widest block">RETOUR AU KM 6</span>
+              <span id="jeu1-penalty-target-num" class="text-2xl font-black block leading-none my-1">Km 6</span>
               <span id="jeu1-penalty-target-title" class="text-xs font-bold text-gray-200 block uppercase">Mountain climbers</span>
             </div>
 
@@ -333,7 +325,7 @@
             </div>
 
             <p id="jeu1-penalty-text" class="text-xs font-extrabold text-rose-900 border-t border-rose-200 pt-2 leading-snug">
-              Tu as négligé ton échauffement ! recul de 6 cases pour peaufiner ta mise en route
+              Tu as négligé ton échauffement ! recul de 6 kilomètres pour peaufiner ta mise en route
             </p>
           </div>
 
@@ -341,12 +333,10 @@
 
         <!-- ZONE DE BOUTONS D'ACTION EN BAS -->
         <div class="space-y-2">
-          <!-- Texte d'objectif sous le bouton -->
           <div id="jeu1-objective-caption" class="text-xs font-bold text-gray-600 px-2 py-1 bg-gray-100 rounded-xl border border-gray-200">
             Objectif : Tenir en position de gainage classique
           </div>
 
-          <!-- Boutons d'action principaux -->
           <button id="jeu1-main-action-btn" onclick="handleJeu1MainAction()" class="w-full py-5 px-6 bg-black hover:bg-gray-800 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide">
             Démarrer
           </button>
@@ -355,6 +345,91 @@
             Lancer le dé 🎲
           </button>
         </div>
+
+        <!-- ===================================================================
+             MODAL FICHE PÉDAGOGIQUE D'EXERCICE
+             =================================================================== -->
+        <div id="pedagogy-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div class="bg-white rounded-3xl border-2 border-gray-900 w-full max-w-sm p-5 space-y-4 shadow-2xl text-left max-h-[88vh] overflow-y-auto no-scrollbar">
+            
+            <!-- EN-TÊTE FICHE -->
+            <div class="space-y-1 border-b border-gray-100 pb-3">
+              <div class="flex items-center justify-between">
+                <span id="pedagogy-km-badge" class="px-2.5 py-0.5 rounded-full bg-black text-amber-400 font-black text-[10px] uppercase tracking-wider">
+                  KM 1
+                </span>
+                <span id="pedagogy-level-badge" class="px-2 py-0.5 rounded-full bg-gray-100 text-gray-800 font-extrabold text-[10px] uppercase border border-gray-200">
+                  CONFIRMÉ
+                </span>
+              </div>
+              <h3 id="pedagogy-title" class="font-display font-black text-xl text-gray-900 leading-tight uppercase pt-1">
+                Gainage classique
+              </h3>
+              <p id="pedagogy-alt-name" class="text-xs font-semibold italic text-gray-500">
+                (Planche)
+              </p>
+            </div>
+
+            <!-- ENCADRÉ OBJECTIF GRAND FORMAT -->
+            <div class="bg-blue-50 p-3.5 rounded-2xl border-2 border-blue-400 space-y-1">
+              <span class="text-[10px] font-black uppercase tracking-widest text-blue-600 block">
+                🎯 OBJECTIF DU NIVEAU
+              </span>
+              <p id="pedagogy-objective" class="font-display font-extrabold text-sm text-blue-950 leading-snug">
+                Réaliser 40" de Gainage classique pour un niveau Confirmé
+              </p>
+            </div>
+
+            <!-- DÉTAILS PÉDAGOGIQUES -->
+            <div class="space-y-3 text-xs leading-relaxed text-gray-800">
+              <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1">
+                <div class="font-black text-gray-900 flex items-center gap-1 uppercase tracking-wider text-[11px]">
+                  <span>🏋️</span> <span>Exécution :</span>
+                </div>
+                <p id="pedagogy-exec" class="text-gray-700 font-medium whitespace-pre-line">
+                  En appui sur les avant-bras et les pointes de pieds...
+                </p>
+              </div>
+
+              <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1">
+                <div class="font-black text-gray-900 flex items-center gap-1 uppercase tracking-wider text-[11px]">
+                  <span>💪</span> <span>Muscles ciblés :</span>
+                </div>
+                <p id="pedagogy-muscles" class="text-gray-700 font-medium">
+                  Sangle abdominale profonde, grand droit, épaules.
+                </p>
+              </div>
+
+              <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 space-y-1">
+                <div class="font-black text-amber-900 flex items-center gap-1 uppercase tracking-wider text-[11px]">
+                  <span>⚠️</span> <span>Point de vigilance :</span>
+                </div>
+                <p id="pedagogy-vigilance" class="text-amber-950 font-medium">
+                  Ne laisse pas le bassin s'affaisser vers le sol...
+                </p>
+              </div>
+
+              <!-- REMARQUE SPÉCIALE (OPTIONNEL) -->
+              <div id="pedagogy-remark-box" class="hidden bg-emerald-50 p-3 rounded-xl border border-emerald-200 space-y-1">
+                <div class="font-black text-emerald-900 flex items-center gap-1 uppercase tracking-wider text-[11px]">
+                  <span>💡</span> <span>Remarque :</span>
+                </div>
+                <p id="pedagogy-remark" class="text-emerald-950 font-bold">
+                  Remarque
+                </p>
+              </div>
+            </div>
+
+            <!-- BOUTON C'EST PARTI -->
+            <div class="pt-2">
+              <button onclick="confirmPedagogyStart()" class="w-full py-4 px-6 bg-black hover:bg-gray-800 text-white font-black text-lg rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide">
+                C'est parti ! 🚀
+              </button>
+            </div>
+
+          </div>
+        </div>
+
       </section>
 
       <!-- ================= ÉCRAN DE VICTOIRE ================= -->
@@ -365,22 +440,22 @@
           </div>
 
           <div class="space-y-1">
-            <h1 class="text-3xl font-display font-black text-black uppercase tracking-tight">Fin de la séance</h1>
+            <h1 class="text-3xl font-display font-black text-black uppercase tracking-tight">Fin du Marathon</h1>
             <p class="text-2xl font-black text-gray-900 uppercase">Félicitations !</p>
           </div>
 
           <div class="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-sm text-gray-800 space-y-2 text-center">
             <p id="victory-session-title" class="font-extrabold text-amber-950 text-base">JEU 1 - Le Marathon Infernal</p>
             <p class="text-xs font-bold text-amber-900 leading-relaxed pt-1">
-              Bravo ! tu es venu au bout du Marathon Infernal. Tu peux savourer tous ces efforts
+              Bravo ! Tu es venu à bout des 42 kilomètres du Marathon Infernal en défiant ton adversaire. Tu peux savourer cette victoire extraordinaire !
             </p>
-            <div id="victory-details-container" class="text-xs space-y-1.5 pt-1"></div>
+            <div id="victory-details-container" class="text-xs space-y-1.5 pt-1 font-bold text-amber-950"></div>
           </div>
         </div>
 
         <div>
-          <button onclick="showScreen('screen-jeu1-welcome')" class="w-full py-4 px-6 bg-black hover:bg-gray-800 text-white font-bold text-lg rounded-2xl shadow-lg active:scale-95 transition-all uppercase">
-            Retour à l'accueil
+          <button onclick="goToAthleteSelect()" class="w-full py-4 px-6 bg-black hover:bg-gray-800 text-white font-bold text-lg rounded-2xl shadow-lg active:scale-95 transition-all uppercase">
+            Choisir un autre adversaire
           </button>
         </div>
       </section>
@@ -395,12 +470,277 @@
 
   <script>
     /* ===================================================================
-       1. NAVIGATION ENTRE ÉCRANS
+       1. BASE DE DONNÉES DES 20 ATHLÈTES / ADVERSAIRES + JOUEUR ALÉATOIRE
+       =================================================================== */
+    const ATHLETES_DATA = [
+      {
+        id: "shelly-ann",
+        name: "Shelly-Ann Fraser-Pryce",
+        country: "JAMAÏQUE",
+        discipline: "Sprint (100m / 200m)",
+        level: "⭐",
+        description: "Avec sa coiffure toujours colorée et son explosivité légendaire, elle est l'une des sprinteuses les plus titrées et régulières de tous les temps. Dominante sur plus de 15 ans au plus haut niveau international, elle est un symbole de longévité et de puissance dans le sprint féminin.",
+        palmares: "3x Championne Olympique\n10x Championne du Monde",
+        rp: "10\"60 sur 100m / 21\"79 sur 200m",
+        sequence: [1, 5, 6, 2, 3, 4, 5, 3, 2, 6],
+        isRandom: false
+      },
+      {
+        id: "marie-jose",
+        name: "Marie-José Pérec",
+        country: "FRANCE",
+        discipline: "Sprint long (400m / 200m)",
+        level: "⭐",
+        description: "Dotée d'une foulée aérienne et d'une élégance exceptionnelle, elle a marqué l'histoire de l'athlétisme français et mondial. Elle est la première athlète à avoir conservé son titre olympique sur 400m et la première à réaliser le doublé 200m/400m aux mêmes Jeux (Atlanta 1996).",
+        palmares: "3x Championne Olympique\n2x Championne du Monde\n3x Championne d'Europe",
+        rp: "48\"25 sur 400m / 21\"99 sur 200m",
+        sequence: [2, 3, 4, 6, 4, 4, 5, 1, 3, 5],
+        isRandom: false
+      },
+      {
+        id: "jakob",
+        name: "Jakob Ingebrigtsen",
+        country: "NORVÈGE",
+        discipline: "Demi-fond (1500m / 5000m / 3000m)",
+        level: "⭐",
+        description: "Prodige norvégien au style de course au train ultra-agressif et au sang-froid imperturbable. Entraîné dans une culture familiale de la performance extrême, il domine le demi-fond mondial depuis son plus jeune âge grâce à une caisse aérobie hors norme.",
+        palmares: "2x Champion Olympique\n2x Champion du Monde\n10x Champion d'Europe (piste et cross-country)",
+        rp: "3'26\"73 sur 1500m (Record d'Europe) / 7'17\"55 sur 3000m (Record du Monde) / 12'48\"45 sur 5000m",
+        sequence: [6, 6, 4, 4, 5, 6, 5, 3, 2, 3],
+        isRandom: false
+      },
+      {
+        id: "aleksandr",
+        name: "Aleksandr Sorokin",
+        country: "LITUANIE",
+        discipline: "Ultra-fond / Course sur route (100 km, 24 heures)",
+        level: "⭐",
+        description: "Ancien kayakiste lituanien devenu chauffeur-livreur puis coureur d'ultra-fond sur le tard. Il a totalement révolutionné l'histoire de la course à pied de longue durée en pulvérisant des records du monde réputés intouchables, enchaînant les kilomètres à un rythme de marathonien sur des durées et des distances hallucinantes.",
+        palmares: "2x Champion du monde\n1x Champion d'Europe\nVainqueur du Spartathlon",
+        rp: "100 km : 6h05'35 (Record du monde) / 6 heures : 98.496 km (Record du monde) / 12 Heures : 177.410 km (Record du monde) / 24 Heures : 319.614 km (Record du monde)",
+        sequence: [4, 5, 6, 6, 4, 4, 1, 4, 1, 4],
+        isRandom: false
+      },
+      {
+        id: "paula",
+        name: "Paula Radcliffe",
+        country: "ROYAUME-UNI",
+        discipline: "Course sur route / Fond (Marathon / 10 000m)",
+        level: "⭐⭐",
+        description: "Avec son style caractérisé par un hochement de tête, elle a réécrit les standards du marathon féminin en établissant un record du monde hors norme à Londres qui est resté intouchable pendant plus de 16 ans.",
+        palmares: "5x Championne du Monde\n2x Championne d'Europe\n7 victoires sur les Marathon Majors",
+        rp: "2h15'25 sur Marathon / 30'01\"09 sur 10000m",
+        sequence: [2, 4, 2, 4, 3, 2, 4, 3, 2, 3, 3, 5],
+        isRandom: false
+      },
+      {
+        id: "lizzy",
+        name: "Lizzy Hawker",
+        country: "ROYAUME-UNI",
+        discipline: "Ultra-trail / Course de 24 heures",
+        level: "⭐⭐",
+        description: "Pionnière absolue de l'ultra-running moderne au début des années 2000, cette Britannique a repoussé les limites de l'endurance en montagne avec une endurance mentale d'acier. Elle détient un record mythique de victoires à l'UTMB.",
+        palmares: "5x Vainqueure de l'UTMB (2005, 2008, 2010, 2011, 2012)\nChampionne du monde du 100 km",
+        rp: "247.07 km sur 24 heures",
+        sequence: [2, 6, 6, 4, 3, 2, 4, 1, 1, 3, 1, 4],
+        isRandom: false
+      },
+      {
+        id: "emil",
+        name: "Emil Zátopek",
+        country: "RÉPUBLIQUE TCHÈQUE",
+        discipline: "Fond / Marathon (5 000m / 10 000m / Marathon)",
+        level: "⭐⭐",
+        description: "Légende absolue de la course à pied, célèbre pour son style Grimaçant et ses méthodes d'entraînement révolutionnaires basées sur l'interval training (fractionné). Il réalise un exploit unique et inégalé aux JO d'Helsinki 1952 en remportant le titre sur le 5 000m, le 10 000m et le marathon aux mêmes Jeux.",
+        palmares: "5 médailles olympiques (dont 4 en or)\n3x Champion d'Europe",
+        rp: "13:57.2 sur 5 000m / 29:02.6 sur 10 000m / 2h23:03 sur marathon",
+        sequence: [1, 5, 6, 5, 3, 3, 6, 2, 5, 4, 3, 1],
+        isRandom: false
+      },
+      {
+        id: "francois",
+        name: "François D'Haene",
+        country: "FRANCE",
+        discipline: "Ultra-trail",
+        level: "⭐⭐",
+        description: "Vigneron dans le Beaujolais la semaine et géant des cimes le week-end, il est l'un des plus grands coureurs d'ultra-endurance en montagne de l'histoire. Reconnaissable à sa gestion de course parfaite, c'est un métronome sur les formats de course les plus extrêmes.",
+        palmares: "4x Vainqueur de l'UTMB (2012, 2014, 2017, 2021)\n4x Vainqueur de la Diagonale des Fous\nVainqueur de la Hardrock 100",
+        rp: "John Muir Trail en 2 jours 19 heures et 26 minutes (2è perf de tous les temps) / GR20 en 29h46 (2è perf de tous les temps)",
+        sequence: [1, 3, 6, 4, 4, 2, 6, 3, 5, 2, 4, 4],
+        isRandom: false
+      },
+      {
+        id: "tirunesh",
+        name: "Tirunesh Dibaba",
+        country: "ÉTHIOPIE",
+        discipline: "Fond (5 000m / 10 000m / Marathon)",
+        level: "⭐⭐⭐",
+        description: "L'une des compétitrices les plus féroces et redoutées de l'histoire de l'athlétisme. Dotée d'une pointe de vitesse finale terrifiante après des courses menées tambour battant, elle a régné sans partage sur les longues distances mondiales pendant une décennie.",
+        palmares: "6 médailles olympiques (dont 3 en or)\n5x Championne du Monde",
+        rp: "14'11\"15 sur 5000m / 29'54\"66 sur 10000m / 2h17'56 sur Marathon",
+        sequence: [3, 2, 4, 3, 3, 4, 2, 3, 3, 2, 2, 4, 4],
+        isRandom: false
+      },
+      {
+        id: "allyson",
+        name: "Allyson Felix",
+        country: "ÉTATS-UNIS",
+        discipline: "Sprint (200m / 400m)",
+        level: "⭐⭐⭐",
+        description: "Exemple d'élégance, de régularité et d'engagement, elle est tout simplement l'athlète féminine la plus médaillée de l'histoire dans des compétions majeures en athlétisme. Elle a marqué deux décennies de sprint par sa polyvalence hors pair du 200m au 400m.",
+        palmares: "11 médailles olympiques (dont 7 en or)\n14x Championne du monde",
+        rp: "21\"69 sur 200m / 49\"26 sur 400m",
+        sequence: [3, 4, 6, 3, 3, 3, 4, 3, 3, 3, 1, 2, 1],
+        isRandom: false
+      },
+      {
+        id: "haile",
+        name: "Haile Gebrselassie",
+        country: "ÉTHIOPIE",
+        discipline: "Fond / Course sur route (5 000m au Marathon)",
+        level: "⭐⭐⭐",
+        description: "Légende éthiopienne au sourire légendaire et à la foulée aérienne. Il a dominé le fond mondial pendant plus d'une décennie, battant 27 records du monde sur 5000m, 10000m, semi-marathon et marathon au cours de sa carrière.",
+        palmares: "2x Champion Olympique du 10000m (1996, 2000)\n4x Champion du Monde du 10000m (1993, 1995, 1997, 1999)\n4x Vainqueur du Marathon de Berlin",
+        rp: "12'39\"36 sur 5000m / 26'22\"75 sur 10000m / 2h03'59 sur marathon",
+        sequence: [4, 3, 2, 3, 3, 5, 4, 5, 3, 2, 2, 5, 2, 1],
+        isRandom: false
+      },
+      {
+        id: "hicham",
+        name: "Hicham El Guerrouj",
+        country: "MAROC",
+        discipline: "Demi-fond (1500m / Mile / 5 000m)",
+        level: "⭐⭐⭐",
+        description: "Symbole de fluidité et de régularité chirurgicale, le Marocain a régné en maître absolu sur le demi-fond mondial durant près d'une décennie. Auteur d'un doublé historique 1500m/5000m aux JO d'Athènes 2004, son record sur 1500m tient depuis plus d'un quart de siècle.",
+        palmares: "3 médailles olympiques (dont 2 en or)\n4x Champion du Monde consécutif sur 1500m (de 1997 à 2003)",
+        rp: "3'26\"00 sur 1500m (Record du monde)",
+        sequence: [1, 3, 4, 5, 3, 3, 2, 3, 2, 3, 2, 4, 3, 1],
+        isRandom: false
+      },
+      {
+        id: "sifan",
+        name: "Sifan Hassan",
+        country: "PAYS-BAS",
+        discipline: "Demi-fond & Fond (1 500m au Marathon)",
+        level: "⭐⭐⭐⭐",
+        description: "Phénomène de polyvalence unique dans l'histoire de l'athlétisme moderne. Capable d'enchaîner le 1 500m, le 5 000m et le 10 000m lors des mêmes Jeux (et de remporter des médailles sur les trois), elle réalise l'impensable en s'imposant sur le marathon des JO de Paris avec un finish et un mental hors du commun.",
+        palmares: "6 médailles olympiques (dont 3 en or)\n2x Championne du Monde\n2x Championne d'Europe",
+        rp: "3'51\"95 sur 1500m / 14'22\"12 sur 5000m / 2h13'44 sur marathon",
+        sequence: [3, 5, 4, 4, 4, 5, 3, 2, 3, 3, 1, 2, 3, 4],
+        isRandom: false
+      },
+      {
+        id: "florence",
+        name: "Florence Griffith-Joyner",
+        country: "ÉTATS-UNIS",
+        discipline: "Sprint (100m / 200m)",
+        level: "⭐⭐⭐⭐",
+        description: "Icône flamboyante des années 1980, reconnaissable à ses tenues audacieuses et ses ongles longs sculptés. Grâce à une technique foudroyante et une gestuelle unique, elle a pulvérisé des records du monde sur 100m et 200m qui défient encore toutes les lois de la physique plus de 35 ans plus tard.",
+        palmares: "5 médailles olympiques (dont 3 en or)\n1x Championne du monde",
+        rp: "10\"49 sur 100m (Record du monde) / 21'34 sur 200m (Record du monde)",
+        sequence: [3, 4, 4, 5, 5, 5, 5, 3, 4, 4, 2, 2, 3, 1],
+        isRandom: false
+      },
+      {
+        id: "carl",
+        name: "Carl Lewis",
+        country: "ÉTATS-UNIS",
+        discipline: "Sprint & Saut (100m / 200m / Saut en longueur)",
+        level: "⭐⭐⭐⭐",
+        description: "L'un des plus grands athlètes de tous les temps toutes disciplines confondues. Il a dominé l'athlétisme mondial durant les années 1980 et 1990, égalant notamment le record mythique de Jesse Owens avec 4 médailles d'or lors des mêmes Jeux en 1984.",
+        palmares: "10 médailles olympiques (dont 9 en or)\n8x Champion du Monde",
+        rp: "9\"86 sur 100m / 8.87 m au Saut en longueur",
+        sequence: [4, 2, 5, 4, 4, 1, 3, 4, 3, 4, 1, 3, 2, 1, 4],
+        isRandom: false
+      },
+      {
+        id: "eliud",
+        name: "Eliud Kipchoge",
+        country: "KENYA",
+        discipline: "Course sur route (Marathon)",
+        level: "⭐⭐⭐⭐",
+        description: "Considéré comme le plus grand marathonien de tous les temps. Sa rigueur monastique, son calme olympien et sa régularité métronomique ont fait de lui le premier homme à courir les 42,195 km en moins de deux heures (projet INEOS 1:59, hors compétition officielle). Double champion olympique consécutif.",
+        palmares: "4 médailles olympiques (dont 2 en or)\nChampion du Monde du 5000m (2003)\n11 victoires sur les Marathon Majors",
+        rp: "12'46\"53 sur 5 000m / 2h01'09 sur marathon",
+        sequence: [2, 5, 4, 5, 5, 5, 3, 5, 1, 3, 4, 6, 3, 1],
+        isRandom: false
+      },
+      {
+        id: "faith",
+        name: "Faith Kipyegon",
+        country: "KENYA",
+        discipline: "Demi-fond (1 500m / 5 000m)",
+        level: "⭐⭐⭐⭐⭐",
+        description: "Incontestablement la plus grande coureuse de 1500m de l'histoire. Dotée d'un sens tactique inné et d'une accélération finale foudroyante, elle enchaîne les titres majeurs et a fait tomber les barrières chronométriques mondiales les unes après les autres. Elle est l'actuelle détentrice de nombreux records du monde, olympique et sur la Ligue de Diamant.",
+        palmares: "4 médailles olympiques (dont 3 en or)\n5x Championne du Monde",
+        rp: "3'49\"04 sur 1500m (Record du monde) / 14'05\"20 sur 5000m (Record du monde)",
+        sequence: [3, 3, 5, 5, 2, 2, 3, 4, 1, 1, 3, 2, 1, 6, 3, 1],
+        isRandom: false
+      },
+      {
+        id: "courtney",
+        name: "Courtney Dauwalter",
+        country: "ÉTATS-UNIS",
+        discipline: "Ultra-trail / Course d'endurance extrême",
+        level: "⭐⭐⭐⭐⭐",
+        description: "Phénomène mondial de l'ultra-endurance, reconnaissable à son short ample et son sourire indéfectible même après 150 kilomètres d'effort. Elle bat régulièrement les meilleurs hommes au scratch sur les courses de 100 miles les plus dures de la planète et enchaîne les victoires historiques.",
+        palmares: "3x Vainqueure de l'UTMB\n2x Vainqueure de la Western States 100\n3x Vainqueure de la Hardrock 100\nVainqueure au scratch de la Moab 240 (battant tous les hommes)",
+        rp: "455,9 kms parcourus en 48h / 22h30m54s à l'UTMB",
+        sequence: [1, 6, 4, 3, 5, 3, 2, 3, 2, 2, 4, 3, 3, 1, 2, 1],
+        isRandom: false
+      },
+      {
+        id: "usain",
+        name: "Usain Bolt",
+        country: "JAMAÏQUE",
+        discipline: "Sprint (100m / 200m)",
+        level: "⭐⭐⭐⭐⭐",
+        description: "Véritable légende vivante et athlète le plus rapide de l'histoire, il a révolutionné le sprint mondial par sa domination absolue, ses célébrations et ses records stratosphériques. Il est le seul à avoir réalisé le triplé sur 100m et 200m lors de trois Jeux olympiques consécutifs.",
+        palmares: "8 titres olympiques\n11x Champion du Monde",
+        rp: "9\"58 sur 100m (Record du monde) / 19\"19 sur 200m (Record du monde)",
+        sequence: [2, 4, 5, 5, 2, 5, 3, 5, 3, 3, 3, 3, 5, 1, 3, 1],
+        isRandom: false
+      },
+      {
+        id: "kilian",
+        name: "Kilian Jornet",
+        country: "ESPAGNE",
+        discipline: "Trail running / Ski-alpinisme",
+        level: "⭐⭐⭐⭐⭐⭐",
+        description: "Véritable pionnier et surdoué de l'endurance en haute montagne. Il a redéfini les standards du trail mondial par sa technique de descente supersonique, sa caisse aérobie hors norme et ses records d'ascension rapide (FKT) sur les plus hauts sommets du monde, comme l'Everest gravi deux fois en une semaine sans oxygène.\n\nDes courses de montagnes rapides aux ultras les plus techniques, il gagne sur tous les terrains. C'est la LÉGENDE du trail !",
+        palmares: "4x Vainqueur de l'UTMB\n3x Vainqueur de la Hardrock 100\n8x Champion du Monde de ski-alpinisme\n4x Champion du Monde de skyrunning\n1x Vainqueur de la Diagonale des Fous\n10x Vainqueur de Sierre-Zinal\n11x Vainqueur de Zegama-Aizkorri",
+        rp: "82 sommets de +4000m dans les Alpes en 19 jours (1206 km et 75000m D+) / L'Everest 26h sans oxygène / La traversée des Pyrénées en 8 jours (485 km et 43000m D+)",
+        sequence: [4, 6, 1, 4, 5, 6, 6, 2, 2, 2, 1, 3, 3, 3, 1, 2, 1],
+        isRandom: false
+      },
+      {
+        id: "random",
+        name: "Joueur Aléatoire",
+        country: "PAYS INCONNU",
+        discipline: "Athlète Mystère",
+        level: "🎲",
+        description: "Vous aimez le suspense et l'imprévu ? En choisissant le Joueur Aléatoire, vos lancers de dés durant la course seront totalement imprévisibles et aléatoires !",
+        palmares: "Surprise et Aventure\nTirage de dés 100% aléatoire",
+        rp: "Un nouveau chapitre à écrire sur la piste !",
+        sequence: [],
+        isRandom: true
+      }
+    ];
+
+    /* INDICE DE PROGRESSION DÉ SÉQUENCE */
+    let presetStepIndex = 0;
+
+    /* ATHLÈTE / ADVERSAIRE SÉLECTIONNÉ */
+    let currentAthlete = ATHLETES_DATA[0];
+
+    /* ===================================================================
+       2. NAVIGATION ENTRE ÉCRANS
        =================================================================== */
     function showScreen(screenId) {
       const screens = [
         'screen-jeu1-welcome',
-        'screen-jeu1-intro',
+        'screen-athlete-select',
+        'screen-athlete-card',
         'screen-jeu1-game',
         'screen-victory'
       ];
@@ -414,16 +754,84 @@
       if (active) active.classList.remove('hidden');
     }
 
+    function goToAthleteSelect() {
+      renderAthletesGrid();
+      showScreen('screen-athlete-select');
+    }
+
+    function renderAthletesGrid() {
+      const grid = document.getElementById('athletes-grid');
+      grid.innerHTML = '';
+
+      ATHLETES_DATA.forEach((athlete) => {
+        const cardBtn = document.createElement('button');
+        cardBtn.className = "p-3 rounded-2xl bg-white border border-gray-200 hover:border-black hover:shadow-md transition-all text-left flex items-center justify-between group";
+        cardBtn.onclick = () => selectAthlete(athlete);
+
+        const isRand = athlete.isRandom;
+        const icon = isRand ? "🎲" : "🏃";
+        const starText = athlete.level;
+
+        cardBtn.innerHTML = `
+          <div class="space-y-0.5 truncate pr-2">
+            <div class="font-display font-extrabold text-xs sm:text-sm text-gray-900 group-hover:text-black truncate">
+              ${icon} ${athlete.name}
+            </div>
+            <div class="text-[11px] font-normal italic text-gray-500 truncate">
+              ${athlete.discipline}
+            </div>
+          </div>
+          <div class="text-xs shrink-0 font-bold bg-gray-50 px-2 py-1 rounded-lg border border-gray-100">
+            ${starText}
+          </div>
+        `;
+
+        grid.appendChild(cardBtn);
+      });
+    }
+
+    function selectAthlete(athlete) {
+      currentAthlete = athlete;
+
+      document.getElementById('card-name').textContent = athlete.name.toUpperCase();
+      document.getElementById('card-country').textContent = athlete.country.toUpperCase();
+      document.getElementById('card-discipline').textContent = athlete.discipline;
+      document.getElementById('card-level').textContent = athlete.level;
+      document.getElementById('card-description').textContent = athlete.description;
+
+      let palmaresText = Array.isArray(athlete.palmares) ? athlete.palmares.join('\n') : athlete.palmares;
+      document.getElementById('card-palmares').textContent = palmaresText;
+      document.getElementById('card-rp').innerHTML = `<span class="font-extrabold uppercase tracking-wider">RP :</span> ${athlete.rp}`;
+
+      showScreen('screen-athlete-card');
+    }
+
+    function startGameFromCard() {
+      const levelSelect = document.getElementById('select-card-level');
+      jeu1SelectedLevel = levelSelect.value;
+      
+      presetStepIndex = 0;
+      jeu1CurrentCase = 1;
+      jeu1SubTour = 1;
+      jeu1Step = 1;
+      jeu1GameState = "CASE_1_PREPARE";
+
+      document.getElementById('jeu1-char-name').textContent = currentAthlete.name;
+      document.getElementById('jeu1-level-badge').textContent = JEU1_LEVEL_NAMES[jeu1SelectedLevel] || "Confirmé";
+
+      showScreen('screen-jeu1-game');
+      setupJeu1UI();
+    }
+
     function showVictory(workoutTitle, detailsHtml) {
       document.getElementById('victory-session-title').textContent = workoutTitle || "JEU 1 - Le Marathon Infernal";
-      if (detailsHtml) {
-        document.getElementById('victory-details-container').innerHTML = detailsHtml;
-      }
+      const detailContainer = document.getElementById('victory-details-container');
+      detailContainer.innerHTML = `Adversaire : <strong>${currentAthlete.name}</strong> (${currentAthlete.country}) - Niveau ${JEU1_LEVEL_NAMES[jeu1SelectedLevel]}`;
       showScreen('screen-victory');
     }
 
     /* ===================================================================
-       2. AUDIO API (Web Audio Synth)
+       3. AUDIO API (Web Audio Synth)
        =================================================================== */
     let audioCtx = null;
     function initAudio() {
@@ -485,7 +893,7 @@
     }
 
     /* ===================================================================
-       3. LOGIQUE JEU 1 - LE MARATHON INFERNAL (CASES 1 À 42)
+       4. LOGIQUE JEU 1 - LE MARATHON INFERNAL (KILOMÈTRES 1 À 42)
        =================================================================== */
     const JEU1_DICE_EMOJIS = {
       1: { label: "+ 1", emoji: "🐌" },
@@ -496,63 +904,136 @@
       6: { label: "+ 6", emoji: "🚀" }
     };
 
+    function getKmBadgeText(num) {
+      if (num === 1) return "1er kilo - Départ prudent";
+      if (num === 21) return "Passage au Semi";
+      if (num === 42) return "Dernière ligne droite !";
+      return `Km ${num}`;
+    }
+
     const JEU1_CASES = {
       1: {
         title: "Gainage classique",
         type: "DUREE",
-        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 }
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        pedagogy: {
+          altName: "Planche",
+          exec: "En appui sur les avant-bras et les pointes de pieds, aligne les talons, les hanches et les épaules. Contracte fortement les abdos et les fessiers pour former une ligne droite avec le corps, sans creuser le dos.",
+          muscles: "Sangle abdominale profonde (transverse), grand droit, épaules.",
+          vigilance: "Ne laisse pas le bassin s'affaisser vers le sol et ne lève pas les fesses trop haut."
+        }
       },
       2: {
         title: "Crunch foot to foot",
         type: "NUMERIQUE",
-        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 }
+        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 },
+        pedagogy: {
+          altName: "Touches talons alternés",
+          exec: "Allongé sur le dos, genoux fléchis et pieds à plat au sol écartés de la largeur des hanches. Décolle légèrement les omoplates du sol en contractant les abdominaux, puis viens chercher à toucher alternativement ton talon droit avec ta main droite, puis ton talon gauche avec ta main gauche en faisant une flexion latérale du buste.",
+          muscles: "Obliques et grand droit de l'abdomen.",
+          vigilance: "Garde le bas du dos bien plaqué au sol et évite de tirer sur la nuque avec tes mains."
+        }
       },
       3: {
         title: "Balancier",
         type: "NUMERIQUE",
-        reps: { debutant: 6, intermediaire: 8, confirme: 10, expert: 12, champion: 15 }
+        reps: { debutant: 6, intermediaire: 8, confirme: 10, expert: 12, champion: 15 },
+        pedagogy: {
+          altName: "",
+          exec: "Allongé sur le dos, mains sous les fessiers ou le long du corps. Décompose le mouvement en 4 temps précis :\n1. Décoller les talons de quelques centimètres du sol.\n2. Monter les jambes tendues à la verticale.\n3. Redescendre les jambes à mi-hauteur en freinant.\n4. S'arrêter juste avant de toucher le sol.",
+          muscles: "Sangle abdominale inférieure, grand droit et transverse.",
+          vigilance: "Garde le bas du dos fermement plaqué contre le sol pendant toute la durée du mouvement."
+        }
       },
       4: {
         title: "Gainage araignée touche-épaule",
         type: "DUREE",
-        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 }
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        pedagogy: {
+          altName: "Planche avec tape d'épaules",
+          exec: "En position de planche haute (sur les mains, bras tendus), écarte légèrement les pieds pour stabiliser le bassin. Lève une main pour venir toucher l'épaule opposée, puis pose-la et alterne avec l'autre main en essayant de bouger le bassin le moins possible.",
+          muscles: "Abdominaux (obliques), ceinture scapulaire et stabilité du tronc.",
+          vigilance: "Ne laisse pas les hanches pivoter de gauche à droite de manière excessive ; garde le corps verrouillé."
+        }
       },
       5: {
         title: "Gainage Latéral",
         type: "DOUBLE_DUREE",
         side1: "gauche",
         side2: "droit",
-        durations: { debutant: 15, intermediaire: 20, confirme: 30, expert: 45, champion: 60 }
+        durations: { debutant: 15, intermediaire: 20, confirme: 30, expert: 45, champion: 60 },
+        pedagogy: {
+          altName: "",
+          exec: "Allongé sur le côté, appuie-toi sur ton avant-bras (coude aligné sous l'épaule) et sur la tranche extérieure de ton pied. Décolle les hanches pour aligner tout le corps en diagonale.",
+          muscles: "Obliques.",
+          vigilance: "Ne laisse pas les hanches pointer vers l'arrière ou piquer vers le sol ; garde la poitrine ouverte."
+        }
       },
       6: {
         title: "Mountain climber",
         type: "NUMERIQUE",
-        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 }
+        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 },
+        pedagogy: {
+          altName: "Mountain Climbers",
+          exec: "En position de planche haute (mains sous les épaules, corps bien aligné), ramène lentement un genou vers la poitrine en contrôlant le mouvement, puis raccompagne-le en position initiale avant de faire de même avec l'autre jambe. Le mouvement est exécuté à vitesse maîtrisée.",
+          muscles: "Sangle abdominale profonde (transverse), grand droit et gainage global.",
+          vigilance: "Ne cherche pas la vitesse ni le cardio. Maintiens le bassin fixe et verrouillé sans osciller."
+        }
       },
       7: {
         title: "Squats",
         type: "NUMERIQUE",
-        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 }
+        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 },
+        pedagogy: {
+          altName: "",
+          exec: "Debout, pieds écartés de la largeur des épaules. Fléchis les genoux et pousse les fesses vers l'arrière comme pour t'asseoir sur une chaise invisible, en gardant le buste droit et les talons ancrés au sol. Descends cuisses parallèles au sol, puis remonte.",
+          muscles: "Quadriceps, grands fessiers, ischio-jambiers.",
+          vigilance: "Ne laisse pas les genoux s'effondrer vers l'intérieur et conserve un dos neutre."
+        }
       },
       8: {
         title: "Fentes avant",
         type: "NUMERIQUE",
-        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 }
+        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 },
+        pedagogy: {
+          altName: "Fentes avant",
+          exec: "Debout, fais un pas en avant avec une jambe, puis fléchis les deux genoux à 90 degrés. Le genou arrière frôle le sol tandis que le genou avant reste aligné au-dessus de la cheville. Pousse sur la jambe avant pour revenir. Alterne le mouvement avec la jambe droite et la jambe gauche.",
+          muscles: "Quadriceps, fessiers, ischio-jambiers et stabilisateurs de cheville.",
+          vigilance: "Garde le buste bien droit et vertical."
+        }
       },
       9: {
         title: "Pont Statique",
         type: "DUREE",
-        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 }
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        pedagogy: {
+          altName: "Glute bridge statique",
+          exec: "Allongé sur le dos, genoux fléchis et pieds à plat au sol. Pousse sur tes talons pour décoller le bassin jusqu'à former une ligne droite des épaules aux genoux, puis maintiens la position.",
+          muscles: "Fessiers et ischio-jambiers.",
+          vigilance: "Contracte les fessiers en haut mais évite d'hyper-gainer ou de creuser excessivement les lombaires."
+        }
       },
       10: {
         title: "Pont dynamique (relevé de bassin)",
         type: "NUMERIQUE",
-        reps: { debutant: 8, intermediaire: 12, confirme: 16, expert: 20, champion: 25 }
+        reps: { debutant: 8, intermediaire: 12, confirme: 16, expert: 20, champion: 25 },
+        pedagogy: {
+          altName: "Relevés de bassin répétés",
+          exec: "Allongé sur le dos, genoux fléchis et pieds à plat au sol. Pousse sur tes talons pour décoller le bassin jusqu'à former une ligne droite des épaules aux genoux. Monte le bassin en expirant pour contracter les fessiers, puis redescends les fesses juste au-dessus du sol sans les poser complètement avant de remonter.",
+          muscles: "Fessiers, ischio-jambiers et bas du dos.",
+          vigilance: "Garde un rythme régulier et pousse bien à travers toute la surface des pieds."
+        }
       },
       11: {
         title: "Chaise",
         type: "DUREE",
-        durations: { debutant: 20, intermediaire: 40, confirme: 50, expert: 60, champion: 80 }
+        durations: { debutant: 20, intermediaire: 40, confirme: 50, expert: 60, champion: 80 },
+        pedagogy: {
+          altName: "Chaise murale",
+          exec: "Dos collé à un mur, fléchis les genoux à 90 degrés de manière à ce que tes cuisses soient parallèles au sol. Maintiens la position statique en respirant calmement.",
+          muscles: "Quadriceps et isométrique des fessiers.",
+          vigilance: "Ne prends pas appui avec tes mains sur tes cuisses et garde le dos bien plaqué."
+        }
       },
       12: {
         title: "Burpees",
@@ -560,50 +1041,104 @@
         reps: { debutant: 0, intermediaire: 8, confirme: 10, expert: 12, champion: 15 },
         targetCase: 6,
         targetTitle: "Mountain climbers",
-        penaltyMessage: "Tu as négligé ton échauffement ! recul de 6 cases pour peaufiner ta mise en route",
+        penaltyMessage: "Trop d'entrainement = Surentrainement ! recul de 6 kilomètres pour te reposer",
         badge: "🔻 - 6 🔻",
-        emoji: "☠️"
+        emoji: "🪫",
+        pedagogy: {
+          altName: "",
+          exec: "Enchaînement fluide : passe de debout à accroupie (mains au sol), lance tes pieds en arrière pour te retrouver en position de pompe, fais une pompe (optionnel), ramène tes pieds groupés sous toi, puis effectue un saut vertical explosif avec les mains levées.",
+          muscles: "Corps entier (full body) : pectoraux, abdos, quadriceps, fessiers et cardio.",
+          vigilance: "Garde le gainage solide au moment d'envoyer les jambes en arrière pour ne pas creuser le dos. Afin de conserver une bonne gestuelle, ne pars pas trop vite car l'exercice peut faire monter le cardio !"
+        }
       },
       13: {
         title: "Élévation de mollets",
         type: "NUMERIQUE",
-        reps: { debutant: 8, intermediaire: 12, confirme: 16, expert: 20, champion: 25 }
+        reps: { debutant: 8, intermediaire: 12, confirme: 16, expert: 20, champion: 25 },
+        pedagogy: {
+          altName: "",
+          exec: "Debout (sur une marche pour plus d'amplitude), monte le plus haut possible sur la pointe des pieds, marque un temps d'arrêt en haut, puis redescends lentement les talons au sol (ou sous le niveau de la marche).",
+          muscles: "Mollets (gastrocnémiens et soléaire).",
+          vigilance: "Garde les chevilles stables pour éviter qu'elles ne basculent vers l'extérieur ou l'intérieur."
+        }
       },
       14: {
         title: "Patineurs",
         type: "NUMERIQUE",
-        reps: { debutant: 8, intermediaire: 12, confirme: 16, expert: 20, champion: 25 }
+        reps: { debutant: 8, intermediaire: 12, confirme: 16, expert: 20, champion: 25 },
+        pedagogy: {
+          altName: "",
+          exec: "Départ debout les jambes écartées de la largeur des épaules, effectue un mouvement de fente arrière mais envoie la jambe gauche vers l'arrière droit (comme un patineur, en amenant la jambe en diagonale derrière soi sans effectuer de saut) puis reviens en position initiale avant d'envoyer la jambe droite vers l'arrière gauche.",
+          muscles: "Fessiers (moyen fessier), quadriceps et stabilisateurs de la hanche.",
+          vigilance: "Garder le buste stable et bien maîtriser l'équilibre sur la jambe d'appui lors du placement."
+        }
       },
       15: {
         title: "Pompes",
         type: "NUMERIQUE",
-        reps: { debutant: "8 sur les genoux", intermediaire: "10 sur les genoux", confirme: "12", expert: "15", champion: "20" }
+        reps: { debutant: "8 sur les genoux", intermediaire: "10 sur les genoux", confirme: "12", expert: "15", champion: "20" },
+        pedagogy: {
+          altName: "Pompes Classiques",
+          exec: "En appui sur les mains et sur les pointes de pieds. Fléchis les bras pour approcher la poitrine du sol en gardant les coudes orientés à environ 45 degrés, puis repousse-toi.",
+          muscles: "Pectoraux, triceps, deltoïde antérieur et sangle abdominale.",
+          vigilance: "Garde le corps totalement aligné pour éviter que le bassin ne fléchisse."
+        }
       },
       16: {
         title: "Pompes Iso",
         type: "DUREE",
-        durations: { debutant: 5, intermediaire: 10, confirme: 15, expert: 20, champion: 30 }
+        durations: { debutant: 5, intermediaire: 10, confirme: 15, expert: 20, champion: 30 },
+        pedagogy: {
+          altName: "Pompes en isométrie",
+          exec: "Descends en position de pompe et stoppe le mouvement à mi-chemin (poitrine proche du sol). Maintiens cette position fixe en cherchant à repousser le sol sans bouger.",
+          muscles: "Pectoraux, triceps, épaules et gainage profond en contraction statique.",
+          vigilance: "Ne retiens pas ta respiration."
+        }
       },
       17: {
         title: "Pompes mains décollées",
         subtitle: "(Hand Release Push-up)",
         type: "NUMERIQUE",
-        reps: { debutant: "8 sur les genoux", intermediaire: "10 sur les genoux", confirme: "12", expert: "15", champion: "20" }
+        reps: { debutant: "8 sur les genoux", intermediaire: "10 sur les genoux", confirme: "12", expert: "15", champion: "20" },
+        pedagogy: {
+          altName: "Release push-ups",
+          exec: "Descends en position de pompe jusqu'à poser complètement le buste et la poitrine à plat au sol. Lève brièvement les mains en l'air pour couper tout appui, puis repose-les et repousse-toi dynamiquement.",
+          muscles: "Pectoraux, triceps, haut du dos et épaules.",
+          vigilance: "Garde le corps parfaitement gainé au moment du redémarrage (le corps remonte d'un seul bloc)."
+        }
       },
       18: {
         title: "Dips au sol",
         type: "NUMERIQUE",
-        reps: { debutant: 6, intermediaire: 9, confirme: 12, expert: 15, champion: 20 }
+        reps: { debutant: 6, intermediaire: 9, confirme: 12, expert: 15, champion: 20 },
+        pedagogy: {
+          altName: "Dips",
+          exec: "En appui sur les mains au sol (ou sur le bord d'un support : chaise ou muret par exemple), jambes fléchies ou tendues devant. Fléchis les bras pour descendre les fesses vers le bas en gardant le dos proche du support, puis pousse pour remonter.",
+          muscles: "Triceps, épaules et pectoraux.",
+          vigilance: "Ne descends pas trop bas (ne pas dépasser un angle de 90 degrés aux coudes)."
+        }
       },
       19: {
         title: "Pompes en T",
         type: "NUMERIQUE",
-        reps: { debutant: "8 sur les genoux", intermediaire: "10 sur les genoux", confirme: "12", expert: "15", champion: "20" }
+        reps: { debutant: "8 sur les genoux", intermediaire: "10 sur les genoux", confirme: "12", expert: "15", champion: "20" },
+        pedagogy: {
+          altName: "T-Push-up",
+          exec: "Effectue une pompe classique. Une fois remonté, pivote ton corps sur le côté en levant un bras vers le ciel pour former un « T » de profil. Reviens au centre, fais une pompe, puis pivote de l'autre côté.",
+          muscles: "Pectoraux, triceps, obliques et chaîne scapulaire.",
+          vigilance: "Contrôle bien la rotation du bassin et des pieds pour garder l'équilibre."
+        }
       },
       20: {
         title: "Pompes Diamant",
         type: "NUMERIQUE",
-        reps: { debutant: "6 sur les genoux", intermediaire: "8 sur les genoux", confirme: "10", expert: "12", champion: "15" }
+        reps: { debutant: "6 sur les genoux", intermediaire: "8 sur les genoux", confirme: "10", expert: "12", champion: "15" },
+        pedagogy: {
+          altName: "Pompes diamant",
+          exec: "En position de pompe, rapproche tes mains pour que tes index et pouces se touchent (triangle sous la poitrine). Fléchis les coudes en les gardant serrés le long du corps et descends la poitrine vers tes mains.",
+          muscles: "Triceps et portion interne des pectoraux.",
+          vigilance: "Exercice exigeant. Réalise-le sur les genoux si la charge est trop forte."
+        }
       },
       21: {
         title: "Jump Squats",
@@ -611,25 +1146,50 @@
         reps: { debutant: 10, intermediaire: 15, confirme: 20, expert: 25, champion: 30 },
         targetCase: 14,
         targetTitle: "Patineurs",
-        penaltyMessage: "Tu es victime d'une contracture, recul de 6 cases pour te reposer",
+        getPenaltyMessage: (opp) => `Tu es parti beaucoup trop vite pour suivre ${opp} ! Retourne au kilomètre 14 pour ne pas exploser sur la fin...`,
+        penaltyMessage: "Tu es parti beaucoup trop vite ! Retourne au kilomètre 14 pour ne pas exploser sur la fin...",
         badge: "🔻 - 6 🔻",
-        emoji: "🚑"
+        emoji: "🥵",
+        pedagogy: {
+          altName: "",
+          exec: "Réalise un squat classique, puis en remontant, pousse de manière explosive dans tes jambes pour effectuer un saut vertical. Amortis délicatement la réception en fléchissant à nouveau.",
+          muscles: "Quadriceps, fessiers, mollets et explosivité.",
+          vigilance: "Soigne particulièrement l'amorti à la réception (atterrir sur l'avant du pied puis dérouler)."
+        }
       },
       22: {
-        title: "Mountain climbers",
+        title: "Mountain climber",
         type: "PRISON_FRINGALE",
-        reps: { debutant: 40, intermediaire: 60, confirme: 80, expert: 100, champion: 120 }
+        reps: { debutant: 40, intermediaire: 60, confirme: 80, expert: 100, champion: 120 },
+        pedagogy: {
+          altName: "Mountain Climbers",
+          exec: "En position de planche haute (mains sous les épaules, corps bien aligné), ramène lentement un genou vers la poitrine en contrôlant le mouvement, puis raccompagne-le en position initiale avant de faire de même avec l'autre jambe. Le mouvement est exécuté à vitesse maîtrisée.",
+          muscles: "Sangle abdominale profonde (transverse), grand droit et gainage global.",
+          vigilance: "Ne cherche pas la vitesse ni le cardio. Maintiens le bassin fixe et verrouillé sans osciller."
+        }
       },
       23: {
         title: "Montées de genoux",
         type: "DUREE",
         durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
-        unitLabel: "montées de genoux sur place"
+        unitLabel: "montées de genoux sur place",
+        pedagogy: {
+          altName: "",
+          exec: "Sur place (en intérieur) ou en avançant, cours en élevant les genoux alternativement en gardant un rythme dynamique, bras fléchis en opposition.",
+          muscles: "Fléchisseurs de la hanche (psoas), quadriceps, mollets et cardio.",
+          vigilance: "Les genoux ne doivent pas aller plus haut que le bassin."
+        }
       },
       24: {
         title: "Saut de galets",
         type: "NUMERIQUE",
-        reps: { debutant: 8, intermediaire: 10, confirme: 12, expert: 16, champion: 20 }
+        reps: { debutant: 8, intermediaire: 10, confirme: 12, expert: 16, champion: 20 },
+        pedagogy: {
+          altName: "",
+          exec: "Effectuer un petit bond latéral d'un côté, puis essayer de stabiliser et de fixer proprement la réception sur le pied d'atterrissage. Ne pas chercher une trop grande amplitude. Enchaine avec un bond de l'autre côté.",
+          muscles: "Stabilité de la cheville, proprioception et renforcement unilatéral.",
+          vigilance: "Se concentrer sur la qualité de l'amorti et la stabilité à l'impact plutôt que sur la distance."
+        }
       },
       25: {
         title: "Cloche-pied",
@@ -637,35 +1197,70 @@
         side1: "gauche",
         side2: "droit",
         durations: { debutant: 15, intermediaire: 20, confirme: 30, expert: 45, champion: 60 },
-        customTitle: "Cloche pied"
+        customTitle: "Cloche pied",
+        pedagogy: {
+          altName: "Sauts unilatéraux",
+          exec: "Sur une seule jambe, effectue des petits sauts verticaux répétés (séance en intérieur) ou des bonds vers l'avant en restant sur le même pied, en cherchant à garder une bonne tonicité de cheville.",
+          muscles: "Mollets, soléaire, cheville et renforcement tendineux.",
+          vigilance: "Travail du pied, ne pas chercher à aller trop haut."
+        }
       },
       26: {
         title: "Bonds sur place",
         type: "DUREE",
-        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 }
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        pedagogy: {
+          altName: "Pogo jumps",
+          exec: "Debout, jambes tendues ou très légèrement fléchies, saute uniquement en utilisant la détente des chevilles et la force élastique des mollets, avec un temps de contact au sol minimal.",
+          muscles: "Mollets, tendon d'Achille et raideur cheville.",
+          vigilance: "L'objectif est de travailler le pied et le rebond en se focalisant sur la cadence plutôt que sur l'amplitude verticale du bond."
+        }
       },
       27: {
         title: "Jumping Jacks",
         type: "DUREE",
-        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 }
+        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        pedagogy: {
+          altName: "",
+          exec: "Debout, pieds serrés et bras le long du corps. Saute en écartant simultanément les jambes de la largeur des épaules et en amenant tes mains par-dessus ta tête, puis reviens en position initiale.",
+          muscles: "Épaules, adducteurs/abducteurs et cardio.",
+          vigilance: "Garde un rythme régulier et une respiration fluide."
+        }
       },
       28: {
         title: "Burpees",
         type: "NUMERIQUE",
-        reps: { debutant: 5, intermediaire: 8, confirme: 10, expert: 12, champion: 15 }
+        reps: { debutant: 5, intermediaire: 8, confirme: 10, expert: 12, champion: 15 },
+        pedagogy: {
+          altName: "",
+          exec: "Enchaînement fluide : passe de debout à accroupie (mains au sol), lance tes pieds en arrière pour te retrouver en position de pompe, fais une pompe (optionnel), ramène tes pieds groupés sous toi, puis effectue un saut vertical explosif avec les mains levées.",
+          muscles: "Corps entier (full body) : pectoraux, abdos, quadriceps, fessiers et cardio.",
+          vigilance: "Garde le gainage solide au moment d'envoyer les jambes en arrière pour ne pas creuser le dos."
+        }
       },
       29: {
         title: "Chaise",
         type: "DUREE",
-        durations: { debutant: 20, intermediaire: 40, confirme: 50, expert: 60, champion: 80 }
+        durations: { debutant: 20, intermediaire: 40, confirme: 50, expert: 60, champion: 80 },
+        pedagogy: {
+          altName: "Chaise murale",
+          exec: "Dos collé à un mur, fléchis les genoux à 90 degrés de manière à ce que tes cuisses soient parallèles au sol. Maintiens la position statique en respirant calmement.",
+          muscles: "Quadriceps et isométrique des fessiers.",
+          vigilance: "Ne prends pas appui avec tes mains sur tes cuisses et garde le dos bien plaqué."
+        }
       },
       30: {
-        title: "Pont statique sur une jambe",
-        type: "DOUBLE_DUREE",
-        side1: "jambe gauche",
-        side2: "jambe droite",
-        durations: { debutant: 10, intermediaire: 15, confirme: 20, expert: 30, champion: 45 },
-        customTitle: "Pont statique sur"
+        title: "Jump Squats",
+        type: "BLESSURE_MUR",
+        injuryIcons: "🧱",
+        injuryMessage: "C'était inéluctable, le fameux MUR du Marathon... T'es dans les cordes mais serre les dents, c'est maintenant que commence la course !",
+        reps: { debutant: 15, intermediaire: 30, confirme: 45, expert: 60, champion: 75 },
+        pedagogy: {
+          altName: "Le Mur du Marathon",
+          exec: "Réalise un squat classique, puis en remontant, pousse de manière explosive dans tes jambes pour effectuer un saut vertical. Amortis délicatement la réception en fléchissant à nouveau.",
+          muscles: "Quadriceps, fessiers, mollets et explosivité.",
+          vigilance: "Soigne particulièrement l'amorti à la réception (atterrir sur l'avant du pied puis dérouler)."
+        }
       },
       31: {
         title: "Pont Dynamique sur une jambe",
@@ -673,7 +1268,13 @@
         side1: "jambe gauche",
         side2: "jambe droite",
         durations: { debutant: 10, intermediaire: 15, confirme: 20, expert: 30, champion: 45 },
-        customTitle: "Pont dynamique sur"
+        customTitle: "Pont dynamique sur",
+        pedagogy: {
+          altName: "Single leg bridge dynamique",
+          exec: "Allongé sur le dos, genoux fléchis, pieds au sol. Lève une jambe en l'air. En prenant appui uniquement sur le talon de la jambe au sol, monte ton bassin pour l'aligner puis enchaine des répétitions de descente et de montée du bassin de manière contrôlée, toujours en appui sur une seule jambe.",
+          muscles: "Fessiers et ischio-jambiers unilatéraux.",
+          vigilance: "Ne laisse pas le genou de la jambe d'appui partir vers l'intérieur."
+        }
       },
       32: {
         title: "Élévation mollets sur une jambe",
@@ -681,27 +1282,51 @@
         side1: "gauche",
         side2: "droit",
         customItemName: "Élévation mollet",
-        reps: { debutant: 5, intermediaire: 8, confirme: 10, expert: 12, champion: 15 }
+        reps: { debutant: 5, intermediaire: 8, confirme: 10, expert: 12, champion: 15 },
+        pedagogy: {
+          altName: "Calf raise unilatéral",
+          exec: "Debout en appui sur un seul pied (sur une marche pour plus d'amplitude), monte très haut sur la pointe du pied, maintiens une seconde, puis redescends lentement le talon pour étirer le mollet.",
+          muscles: "Mollets en isolation unilatérale (force et stabilité de cheville).",
+          vigilance: "Utilise un support pour l'équilibre sans t'appuyer lourdement dessus."
+        }
       },
       33: {
-        title: "Pistol Squats",
+        title: "Fentes tenues + activation soléaire",
         type: "DOUBLE_NUMERIQUE",
         side1: "gauche",
         side2: "droit",
-        customItemName: "Pistol",
-        reps: { debutant: 5, intermediaire: 8, confirme: 10, expert: 12, champion: 15 }
+        customItemName: "Fentes tenues + activation soléaire",
+        reps: { debutant: 5, intermediaire: 8, confirme: 10, expert: 12, champion: 15 },
+        pedagogy: {
+          altName: "Fente isométrique avec mollet",
+          exec: "Descends en position de fente et maintiens la position basse en isométrique. Tout en restant bas, effectue de petits soulèvements de talon sur la jambe avant ou arrière pour cibler le muscle soléaire.",
+          muscles: "Quadriceps, fessiers (statique) et soléaire du mollet (dynamique).",
+          vigilance: "Garde la stabilité du genou avant et un gainage irréprochable."
+        }
       },
       34: {
         title: "Squats Sumo",
         type: "NUMERIQUE",
-        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 }
+        reps: { debutant: 12, intermediaire: 18, confirme: 24, expert: 30, champion: 40 },
+        pedagogy: {
+          altName: "",
+          exec: "Identique au squat classique, mais en position de Sumo : les pieds beaucoup plus écartés et les pointes de pieds orientées vers l'extérieur (environ 45 degrés). Fléchis les genoux pour descendre le bassin verticalement.",
+          muscles: "Quadriceps internes, adducteurs et fessiers.",
+          vigilance: "Les genoux doivent rester dans l'axe des pointes de pieds."
+        }
       },
       35: {
         title: "Pompes",
         type: "BLESSURE",
         injuryIcons: "💥🚑🩼",
-        injuryMessage: "Chute dans la descente, tu t'es fait une belle entorse. Pour reprendre l'entrainement complète ce défi",
-        reps: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 }
+        injuryMessage: "Chute ! Tu as voulu éviter un concurrent et tu t'es fait une entorse. Pour soigner ta cheville douloureuse, complète ce défi",
+        reps: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        pedagogy: {
+          altName: "Pompes Classiques",
+          exec: "En appui sur les mains et sur les pointes de pieds. Fléchis les bras pour approcher la poitrine du sol en gardant les coudes orientés à environ 45 degrés, puis repousse-toi.",
+          muscles: "Pectoraux, triceps, deltoïde antérieur et sangle abdominale.",
+          vigilance: "Garde le corps totalement aligné pour éviter que le bassin ne fléchisse."
+        }
       },
       36: {
         title: "Gainage militaire",
@@ -709,62 +1334,105 @@
         durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
         targetCase: 34,
         targetTitle: "Squats Sumo",
-        penaltyMessage: "Suite à un débalisage sauvage, tu t'es perdu ! recul de 2 cases pour retrouver ton chemin",
+        penaltyMessage: "Suite à un débalisage sauvage, tu t'es perdu ! recul de 2 kilomètres pour retrouver ton chemin",
         badge: "🔻 - 2 🔻",
-        emoji: "🪫"
+        emoji: "🪫",
+        pedagogy: {
+          altName: "Planche commando",
+          exec: "Commence sur les avant-bras. Prends appui sur une main pour tendre le bras, puis sur l'autre pour passer en planche haute (mains tendues). Redescends sur un avant-bras puis l'autre en alternant le bras d'initiation.",
+          muscles: "Abdominaux (gainage dynamique), triceps, pectoraux et épaules.",
+          vigilance: "Limite le balancement du bassin en contractant abdos et fessiers."
+        }
       },
       37: {
-        title: "Jump Squats",
-        type: "BLESSURE_MUR",
-        injuryIcons: "🧱",
-        injuryMessage: "C'était inéluctable, le fameux MUR du Marathon... T'es dans les cordes mais serre les dents, la ligne d'arrivée est proche !",
-        reps: { debutant: 15, intermediaire: 30, confirme: 45, expert: 60, champion: 75 },
-        nextMsg: "Impossible de relancer, tu n'as plus de jambes... A partir de maintenant, c'est dans la tête !",
-        nextMsgIcon: "🦵"
+        title: "Pont statique sur une jambe",
+        type: "DOUBLE_DUREE",
+        side1: "jambe gauche",
+        side2: "jambe droite",
+        durations: { debutant: 10, intermediaire: 15, confirme: 20, expert: 30, champion: 45 },
+        customTitle: "Pont statique sur",
+        pedagogy: {
+          altName: "Single leg bridge statique",
+          exec: "Allongé sur le dos, genoux fléchis, pieds au sol. Lève une jambe en l'air. En prenant appui uniquement sur le talon de la jambe au sol, monte ton bassin pour l'aligner et maintiens la position.",
+          muscles: "Grand fessier et ischio-jambiers de la jambe d'appui, stabilisateurs du bassin.",
+          vigilance: "Veille à ce que le bassin ne bascule pas sur le côté."
+        }
       },
       38: {
-        title: "Spiderman",
-        type: "DUREE_NEXT",
+        title: "Superman",
+        type: "DUREE_WITH_INTRO",
+        introMsg: "Impossible de relancer, tu n'as plus de jambes... A partir de maintenant, c'est dans la tête !",
+        introMsgIcon: "🦵",
         durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
         nextMsg: "Tu poursuis malgré les crampes... Félicitations, t'es un(e) champion(ne) !",
-        nextMsgIcon: "⚡"
+        nextMsgIcon: "⚡",
+        pedagogy: {
+          altName: "Extensions lombaires à plat ventre",
+          exec: "Allongé à plat ventre, bras et jambes tendus. Décolle simultanément tes bras, ta poitrine et tes jambes du sol en contractant le dos et les fessiers, puis redescends sans relâcher totalement.",
+          muscles: "Bas du dos, grands fessiers et ischio-jambiers.",
+          vigilance: "Ne lève pas la tête de manière excessive pour préserver les cervicales."
+        }
       },
       39: {
         title: "Chaise",
         type: "DUREE_NEXT",
-        durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
+        durations: { debutant: 20, intermediaire: 40, confirme: 50, expert: 60, champion: 80 },
         nextMsg: "Km 40 ! Tu es au bout du rouleau, mais bon tu ne peux pas abandonner maintenant",
-        nextMsgIcon: "🏃"
+        nextMsgIcon: "🏃",
+        pedagogy: {
+          altName: "Chaise murale",
+          exec: "Dos collé à un mur, fléchis les genoux à 90 degrés de manière à ce que tes cuisses soient parallèles au sol. Maintiens la position statique en respirant calmement.",
+          muscles: "Quadriceps et isométrique des fessiers.",
+          vigilance: "Ne prends pas appui avec tes mains sur tes cuisses et garde le dos bien plaqué."
+        }
       },
       40: {
         title: "Pompes",
         type: "NUMERIQUE_NEXT",
         reps: { debutant: "8 sur les genoux", intermediaire: "10 sur les genoux", confirme: "12", expert: "15", champion: "20" },
         nextMsg: "Tu entends le speaker au loin, la ligne d'arrivée approche. Elle est pour toi la médaille !",
-        nextMsgIcon: "🏅"
+        nextMsgIcon: "🏅",
+        pedagogy: {
+          altName: "Pompes Classiques",
+          exec: "En appui sur les mains et sur les pointes de pieds. Fléchis les bras pour approcher la poitrine du sol en gardant les coudes orientés à environ 45 degrés, puis repousse-toi.",
+          muscles: "Pectoraux, triceps, deltoïde antérieur et sangle abdominale.",
+          vigilance: "Garde le corps totalement aligné pour éviter que le bassin ne fléchisse."
+        }
       },
       41: {
         title: "Élévation jambes 4 temps",
         type: "DUREE_NEXT_STEPS",
         durations: { debutant: 20, intermediaire: 30, confirme: 40, expert: 50, champion: 60 },
-        step1Msg: "C'est la dernière ligne droite, 195 mètres de pur bonheur ! Tu voies enfin cette Arche d'arrivée…",
+        step1Msg: "C'est la dernière ligne droite, 195 mètres de pur bonheur ! Tu vois enfin cette Arche d'arrivée…",
         step1Icon: "🚩",
         step2Msg: "Et pour fêter ça, tu fais la Grenouille 🤣",
-        step2Icon: "🐸"
+        step2Icon: "🐸",
+        pedagogy: {
+          altName: "",
+          exec: "Allongé sur le dos, mains sous les fessiers. Décompose le mouvement en 4 temps dissociés pour les jambes :\n1. Monter une jambe tendue à la verticale.\n2. Monter la deuxième jambe pour rejoindre la première.\n3. Redescendre la première jambe en freinant.\n4. Redescendre la deuxième jambe pour revenir près du sol.\nPuis recommencer en changeant la jambe initiatrice à chaque tour.",
+          muscles: "Abdominaux profonds, fléchisseurs des hanches et coordination sous tension.",
+          vigilance: "Ne laisse pas le bassin pivoter ou le bas du dos se décoller lors des mouvements."
+        }
       },
       42: {
         title: "Sauts de Grenouille",
         type: "NUMERIQUE_FINAL",
-        reps: { debutant: 8, intermediaire: 10, confirme: 12, expert: 15, champion: 20 }
+        reps: { debutant: 8, intermediaire: 10, confirme: 12, expert: 15, champion: 20 },
+        pedagogy: {
+          altName: "Frog jumps",
+          exec: "En position de squat bas (talons au sol, fesses proches des talons, mains au sol entre les jambes), pousse dans tes jambes pour faire un petit saut en étendant le corps, réceptionne-le en position de squat, puis redescends en position de squat bas.",
+          muscles: "Quadriceps, fessiers, ouverture des hanches et explosivité.",
+          vigilance: "Attention aux genoux et aux chevilles lors de la flexion profonde ; garde le dos droit.",
+          remark: "Pour fêter cette dernière ligne droite tu peux imiter le cri de la grenouille 🐸"
+        }
       }
     };
 
-    let jeu1SelectedChar = "Kilian Jornet";
     let jeu1SelectedLevel = "confirme";
     let jeu1CurrentCase = 1;
     let jeu1GameState = "CASE_1_PREPARE";
     let jeu1SubTour = 1;
-    let jeu1Step = 1; // pour cas multi-étapes (case 41)
+    let jeu1Step = 1;
     let jeu1TimerInterval = null;
     let jeu1TimeLeft = 0;
     let jeu1LastRoll = 1;
@@ -782,9 +1450,15 @@
         return JEU1_CASES[caseNum];
       }
       return {
-        title: `EXERCICE CASE ${caseNum}`,
+        title: `EXERCICE KM ${caseNum}`,
         type: "NUMERIQUE",
-        reps: { debutant: 10, intermediaire: 15, confirme: 20, expert: 25, champion: 30 }
+        reps: { debutant: 10, intermediaire: 15, confirme: 20, expert: 25, champion: 30 },
+        pedagogy: {
+          altName: "",
+          exec: "Réalisez l'exercice à un rythme régulier en maintenant une posture irréprochable.",
+          muscles: "Full Body / Muscles stabilisateurs",
+          vigilance: "Respirez de manière fluide et contrôlée."
+        }
       };
     }
 
@@ -829,7 +1503,7 @@
         }
       }
 
-      if (["DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS"].includes(caseInfo.type)) {
+      if (["DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS", "DUREE_WITH_INTRO"].includes(caseInfo.type)) {
         const durSec = caseInfo.durations[levelKey];
         const durFormatted = formatJeu1DurationText(durSec);
         const nameText = caseInfo.unitLabel || caseInfo.title;
@@ -847,23 +1521,58 @@
       return "";
     }
 
-    function startJeu1Game() {
-      const charRadio = document.querySelector('input[name="jeu1-char"]:checked');
-      if (charRadio) jeu1SelectedChar = charRadio.value;
+    /* ===================================================================
+       FICHE PÉDAGOGIQUE MODAL MANAGEMENT
+       =================================================================== */
+    function openPedagogyModal() {
+      const caseInfo = getJeu1CaseInfo(jeu1CurrentCase);
+      const ped = caseInfo.pedagogy || {};
 
-      const levelRadio = document.querySelector('input[name="jeu1-level"]:checked');
-      if (levelRadio) jeu1SelectedLevel = levelRadio.value;
+      document.getElementById('pedagogy-km-badge').textContent = getKmBadgeText(jeu1CurrentCase);
+      document.getElementById('pedagogy-level-badge').textContent = JEU1_LEVEL_NAMES[jeu1SelectedLevel] || "CONFIRMÉ";
+      
+      document.getElementById('pedagogy-title').textContent = caseInfo.title;
+      
+      const altEl = document.getElementById('pedagogy-alt-name');
+      if (ped.altName) {
+        altEl.textContent = `(${ped.altName})`;
+        altEl.classList.remove('hidden');
+      } else {
+        altEl.classList.add('hidden');
+      }
 
-      jeu1CurrentCase = 1;
-      jeu1SubTour = 1;
-      jeu1Step = 1;
-      jeu1GameState = "CASE_1_PREPARE";
+      const objText = getJeu1ObjectiveText(jeu1CurrentCase, jeu1SelectedLevel, jeu1SubTour);
+      document.getElementById('pedagogy-objective').textContent = objText;
 
-      document.getElementById('jeu1-char-name').textContent = jeu1SelectedChar;
-      document.getElementById('jeu1-level-badge').textContent = JEU1_LEVEL_NAMES[jeu1SelectedLevel] || "Confirmé";
+      document.getElementById('pedagogy-exec').textContent = ped.exec || "Suivez les consignes de positionnement et de rythme.";
+      document.getElementById('pedagogy-muscles').textContent = ped.muscles || "Muscles principaux et sangle abdominale.";
+      document.getElementById('pedagogy-vigilance').textContent = ped.vigilance || "Gardez un bon alignement et ne bloquez pas votre respiration.";
 
-      showScreen('screen-jeu1-game');
-      setupJeu1UI();
+      const remarkBox = document.getElementById('pedagogy-remark-box');
+      if (ped.remark) {
+        document.getElementById('pedagogy-remark').textContent = ped.remark;
+        remarkBox.classList.remove('hidden');
+      } else {
+        remarkBox.classList.add('hidden');
+      }
+
+      document.getElementById('pedagogy-modal').classList.remove('hidden');
+    }
+
+    function confirmPedagogyStart() {
+      document.getElementById('pedagogy-modal').classList.add('hidden');
+      
+      const caseInfo = getJeu1CaseInfo(jeu1CurrentCase);
+
+      if (["DUREE", "DOUBLE_DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS", "DUREE_WITH_INTRO"].includes(caseInfo.type)) {
+        startJeu1Countdown3s(() => {
+          const dur = caseInfo.durations[jeu1SelectedLevel];
+          startJeu1DurationTimer(dur);
+        });
+      } else {
+        jeu1GameState = "CHALLENGE_VIEW";
+        setupJeu1UI();
+      }
     }
 
     function setupJeu1UI() {
@@ -899,10 +1608,8 @@
       mainBtn.classList.remove('hidden');
       rollBtn.classList.add('hidden');
 
-      const currentLevelLabel = JEU1_LEVEL_NAMES[jeu1SelectedLevel] || "Confirmé";
-
       if (jeu1GameState === "CASE_1_PREPARE") {
-        headerNumBox.textContent = "CASE N° 1 - CASE DE DÉPART";
+        headerNumBox.textContent = getKmBadgeText(1);
         headerTitleBox.textContent = caseInfo.title;
 
         timerBox.classList.remove('hidden');
@@ -922,9 +1629,9 @@
       else if (jeu1GameState === "COUNTDOWN_3S") {
         if (caseInfo.type === "DOUBLE_DUREE" || caseInfo.type === "DOUBLE_NUMERIQUE") {
           const sideText = jeu1SubTour === 1 ? (caseInfo.side1 || "gauche") : (caseInfo.side2 || "droit");
-          headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
+          headerNumBox.textContent = `${getKmBadgeText(jeu1CurrentCase)} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
         } else {
-          headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+          headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         }
         headerTitleBox.textContent = caseInfo.title;
 
@@ -942,9 +1649,9 @@
       else if (jeu1GameState === "TIMER_RUNNING") {
         if (caseInfo.type === "DOUBLE_DUREE") {
           const sideText = jeu1SubTour === 1 ? (caseInfo.side1 || "gauche") : (caseInfo.side2 || "droit");
-          headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
+          headerNumBox.textContent = `${getKmBadgeText(jeu1CurrentCase)} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
         } else {
-          headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+          headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         }
         headerTitleBox.textContent = caseInfo.title;
 
@@ -960,7 +1667,7 @@
         mainBtn.className = "w-full py-5 px-6 bg-red-600 text-white font-black text-xl rounded-2xl uppercase tracking-wide animate-pulse";
       }
       else if (jeu1GameState === "TIMER_FINISHED_CAN_ROLL") {
-        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+        headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         headerTitleBox.textContent = caseInfo.title;
 
         timerBox.classList.remove('hidden');
@@ -979,7 +1686,7 @@
       else if (jeu1GameState === "DICE_ROLLED") {
         const diceInfo = JEU1_DICE_EMOJIS[jeu1LastRoll];
         
-        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+        headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         headerTitleBox.textContent = caseInfo.title;
 
         diceResContainer.classList.remove('hidden');
@@ -988,31 +1695,42 @@
 
         captionBox.textContent = getJeu1ObjectiveText(jeu1CurrentCase, jeu1SelectedLevel, jeu1SubTour);
 
-        mainBtn.textContent = (caseInfo.type === "BLESSURE" || caseInfo.type === "BLESSURE_MUR") ? "Lancer le défi" : "Commencer le défi";
+        if (caseInfo.type === "BLESSURE" || caseInfo.type === "BLESSURE_MUR" || caseInfo.type === "DUREE_WITH_INTRO") {
+          mainBtn.textContent = "Lancer le défi";
+        } else {
+          mainBtn.textContent = "Commencer le défi";
+        }
         mainBtn.className = "w-full py-5 px-6 bg-black hover:bg-gray-800 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
       }
       else if (jeu1GameState === "INJURY_INTRO") {
-        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} - CASE BLESSURE`;
+        headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         headerTitleBox.textContent = caseInfo.title;
 
-        injuryBox.classList.remove('hidden');
-        document.getElementById('jeu1-injury-icons').textContent = caseInfo.injuryIcons || "💥🚑🩼";
-        document.getElementById('jeu1-injury-msg').textContent = caseInfo.injuryMessage;
-
-        captionBox.textContent = "Attention : Défi blessure en cours !";
-
-        mainBtn.textContent = "Lancer le défi";
-        mainBtn.className = "w-full py-5 px-6 bg-orange-600 hover:bg-orange-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+        if (caseInfo.type === "DUREE_WITH_INTRO") {
+          msgBox.classList.remove('hidden');
+          document.getElementById('jeu1-msg-icon').textContent = caseInfo.introMsgIcon || "🦵";
+          document.getElementById('jeu1-msg-text').textContent = caseInfo.introMsg;
+          captionBox.textContent = "Attention : Message de course !";
+          mainBtn.textContent = "Défi suivant";
+          mainBtn.className = "w-full py-5 px-6 bg-purple-600 hover:bg-purple-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+        } else {
+          injuryBox.classList.remove('hidden');
+          document.getElementById('jeu1-injury-icons').textContent = caseInfo.injuryIcons || "💥🚑🩼";
+          document.getElementById('jeu1-injury-msg').textContent = caseInfo.injuryMessage;
+          captionBox.textContent = "Attention : Défi en cours !";
+          mainBtn.textContent = "Lancer le défi";
+          mainBtn.className = "w-full py-5 px-6 bg-orange-600 hover:bg-orange-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
+        }
       }
       else if (jeu1GameState === "CHALLENGE_VIEW") {
-        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+        headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         headerTitleBox.textContent = caseInfo.title;
 
         if (caseInfo.type === "PRISON_FRINGALE") {
           prisonBox.classList.remove('hidden');
           const reps = caseInfo.reps[jeu1SelectedLevel];
           document.getElementById('jeu1-prison-display').textContent = `Pour recharger tes batteries réalise ${reps} ${caseInfo.title}`;
-          captionBox.textContent = `Case Prison : ${reps} ${caseInfo.title}`;
+          captionBox.textContent = `Pénalité Fringale : ${reps} ${caseInfo.title}`;
 
           mainBtn.textContent = "Valider le défi";
           mainBtn.className = "w-full py-5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
@@ -1020,14 +1738,14 @@
         else if (caseInfo.type === "DOUBLE_NUMERIQUE") {
           numericBox.classList.remove('hidden');
           const sideText = jeu1SubTour === 1 ? (caseInfo.side1 || "gauche") : (caseInfo.side2 || "droit");
-          headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
+          headerNumBox.textContent = `${getKmBadgeText(jeu1CurrentCase)} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
 
           const objText = getJeu1ObjectiveText(jeu1CurrentCase, jeu1SelectedLevel, jeu1SubTour);
           document.getElementById('jeu1-numeric-display').textContent = objText;
           captionBox.textContent = objText;
 
           if (jeu1SubTour === 1) {
-            mainBtn.textContent = `Valider le côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
+            mainBtn.textContent = `Valider le côté Gauche`;
             mainBtn.className = "w-full py-5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
           } else {
             mainBtn.textContent = "Valider le défi";
@@ -1044,7 +1762,7 @@
           mainBtn.textContent = "Valider le défi";
           mainBtn.className = "w-full py-5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
         }
-        else if (["DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS"].includes(caseInfo.type)) {
+        else if (["DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS", "DUREE_WITH_INTRO"].includes(caseInfo.type)) {
           timerBox.classList.remove('hidden');
           timerBox.className = "p-6 rounded-3xl bg-blue-50 border-4 border-blue-500 inline-block w-full max-w-xs shadow-lg transition-all";
           stateLabel.className = "text-xs font-black uppercase tracking-widest text-blue-600 block mb-1";
@@ -1063,7 +1781,7 @@
           timerBox.className = "p-6 rounded-3xl bg-blue-50 border-4 border-blue-500 inline-block w-full max-w-xs shadow-lg transition-all";
           
           const sideText = jeu1SubTour === 1 ? (caseInfo.side1 || "gauche") : (caseInfo.side2 || "droit");
-          headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
+          headerNumBox.textContent = `${getKmBadgeText(jeu1CurrentCase)} • Tour ${jeu1SubTour} : Côté ${sideText.charAt(0).toUpperCase() + sideText.slice(1)}`;
           stateLabel.className = "text-xs font-black uppercase tracking-widest text-blue-600 block mb-1";
           stateLabel.textContent = `🎯 TOUR ${jeu1SubTour} : CÔTÉ ${sideText.toUpperCase()}`;
 
@@ -1077,7 +1795,7 @@
         }
       }
       else if (jeu1GameState === "CHALLENGE_TIMER_FINISHED") {
-        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+        headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         headerTitleBox.textContent = caseInfo.title;
 
         timerBox.classList.remove('hidden');
@@ -1094,12 +1812,12 @@
         mainBtn.className = "w-full py-5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
       }
       else if (jeu1GameState === "INTERMEDIATE_MSG_VIEW") {
-        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+        headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         headerTitleBox.textContent = caseInfo.title;
 
         msgBox.classList.remove('hidden');
 
-        if (caseInfo.type === "BLESSURE_MUR" || caseInfo.type === "DUREE_NEXT" || caseInfo.type === "NUMERIQUE_NEXT") {
+        if (caseInfo.type === "BLESSURE_MUR" || caseInfo.type === "DUREE_NEXT" || caseInfo.type === "NUMERIQUE_NEXT" || caseInfo.type === "DUREE_WITH_INTRO") {
           document.getElementById('jeu1-msg-icon').textContent = caseInfo.nextMsgIcon || "🏃";
           document.getElementById('jeu1-msg-text').textContent = caseInfo.nextMsg;
           captionBox.textContent = "Bravo ! En route vers la suite.";
@@ -1123,7 +1841,7 @@
         }
       }
       else if (jeu1GameState === "CHALLENGE_VALIDATED") {
-        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase}`;
+        headerNumBox.textContent = getKmBadgeText(jeu1CurrentCase);
         headerTitleBox.textContent = caseInfo.title;
 
         numericBox.classList.remove('hidden');
@@ -1134,20 +1852,26 @@
         rollBtn.classList.remove('hidden');
       }
       else if (jeu1GameState === "PENALTY_SCREEN") {
-        headerNumBox.textContent = `CASE N° ${jeu1CurrentCase} - CASE PÉNALITÉ`;
+        headerNumBox.textContent = `${getKmBadgeText(jeu1CurrentCase)} - PÉNALITÉ`;
         headerTitleBox.textContent = caseInfo.title;
 
         penaltyBox.classList.remove('hidden');
 
-        document.getElementById('jeu1-penalty-target-num').textContent = caseInfo.targetCase;
+        document.getElementById('jeu1-penalty-target-badge-label').textContent = `RETOUR AU KM ${caseInfo.targetCase}`;
+        document.getElementById('jeu1-penalty-target-num').textContent = `Km ${caseInfo.targetCase}`;
         document.getElementById('jeu1-penalty-target-title').textContent = caseInfo.targetTitle;
         document.getElementById('jeu1-penalty-badge').textContent = caseInfo.badge || "🔻 - 6 🔻";
         document.getElementById('jeu1-penalty-emoji').textContent = caseInfo.emoji || "☠️";
-        document.getElementById('jeu1-penalty-text').textContent = caseInfo.penaltyMessage;
 
-        captionBox.textContent = `Case pénalité : Retour obligatoire en Case ${caseInfo.targetCase} sans lancer le dé !`;
+        let msg = caseInfo.penaltyMessage;
+        if (typeof caseInfo.getPenaltyMessage === 'function') {
+          msg = caseInfo.getPenaltyMessage(currentAthlete.name);
+        }
+        document.getElementById('jeu1-penalty-text').textContent = msg;
 
-        mainBtn.textContent = `Retourner en case ${caseInfo.targetCase} 🔄`;
+        captionBox.textContent = `Pénalité : Retour obligatoire au Km ${caseInfo.targetCase} sans lancer le dé !`;
+
+        mainBtn.textContent = `Retourner au Km ${caseInfo.targetCase} 🔄`;
         mainBtn.className = "w-full py-5 px-6 bg-rose-600 hover:bg-rose-700 text-white font-black text-xl rounded-2xl shadow-xl active:scale-95 transition-all uppercase tracking-wide";
       }
     }
@@ -1157,22 +1881,18 @@
       const caseInfo = getJeu1CaseInfo(jeu1CurrentCase);
 
       if (jeu1GameState === "CASE_1_PREPARE") {
-        startJeu1Countdown3s(() => {
-          const dur = caseInfo.durations[jeu1SelectedLevel];
-          startJeu1DurationTimer(dur);
-        });
+        openPedagogyModal();
       }
       else if (jeu1GameState === "DICE_ROLLED") {
-        if (caseInfo.type === "BLESSURE" || caseInfo.type === "BLESSURE_MUR") {
+        if (caseInfo.type === "BLESSURE" || caseInfo.type === "BLESSURE_MUR" || caseInfo.type === "DUREE_WITH_INTRO") {
           jeu1GameState = "INJURY_INTRO";
+          setupJeu1UI();
         } else {
-          jeu1GameState = "CHALLENGE_VIEW";
+          openPedagogyModal();
         }
-        setupJeu1UI();
       }
       else if (jeu1GameState === "INJURY_INTRO") {
-        jeu1GameState = "CHALLENGE_VIEW";
-        setupJeu1UI();
+        openPedagogyModal();
       }
       else if (jeu1GameState === "CHALLENGE_VIEW") {
         if (caseInfo.type === "PENALITE") {
@@ -1184,18 +1904,18 @@
           playIntermediaryGongSound();
           if (jeu1SubTour === 1) {
             jeu1SubTour = 2;
-            setupJeu1UI();
+            openPedagogyModal();
           } else {
             jeu1GameState = "CHALLENGE_VALIDATED";
             setupJeu1UI();
           }
         }
-        else if (caseInfo.type === "PRISON_FRINGALE" || caseInfo.type === "NUMERIQUE" || caseInfo.type === "BLESSURE") {
+        else if (caseInfo.type === "PRISON_FRINGALE" || caseInfo.type === "NUMERIQUE" || caseInfo.type === "BLESSURE" || caseInfo.type === "BLESSURE_MUR") {
           playIntermediaryGongSound();
           jeu1GameState = "CHALLENGE_VALIDATED";
           setupJeu1UI();
         }
-        else if (caseInfo.type === "BLESSURE_MUR" || caseInfo.type === "NUMERIQUE_NEXT") {
+        else if (caseInfo.type === "NUMERIQUE_NEXT") {
           playIntermediaryGongSound();
           jeu1GameState = "INTERMEDIATE_MSG_VIEW";
           setupJeu1UI();
@@ -1204,7 +1924,7 @@
           playFinalGongSound();
           showVictory("JEU 1 - Le Marathon Infernal", "");
         }
-        else if (["DUREE", "DOUBLE_DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS"].includes(caseInfo.type)) {
+        else if (["DUREE", "DOUBLE_DUREE", "PENALITE_DUREE", "DUREE_NEXT", "DUREE_NEXT_STEPS", "DUREE_WITH_INTRO"].includes(caseInfo.type)) {
           startJeu1Countdown3s(() => {
             const dur = caseInfo.durations[jeu1SelectedLevel];
             startJeu1DurationTimer(dur);
@@ -1218,7 +1938,7 @@
           jeu1GameState = "PENALTY_SCREEN";
           setupJeu1UI();
         }
-        else if (caseInfo.type === "DUREE_NEXT" || caseInfo.type === "DUREE_NEXT_STEPS") {
+        else if (caseInfo.type === "DUREE_NEXT" || caseInfo.type === "DUREE_NEXT_STEPS" || caseInfo.type === "DUREE_WITH_INTRO") {
           jeu1Step = 1;
           jeu1GameState = "INTERMEDIATE_MSG_VIEW";
           setupJeu1UI();
@@ -1236,18 +1956,17 @@
           setupJeu1UI();
         }
         else {
-          // Passer directement à la case suivante
           jeu1CurrentCase++;
           jeu1SubTour = 1;
           jeu1Step = 1;
 
           const nextCase = getJeu1CaseInfo(jeu1CurrentCase);
-          if (nextCase.type === "BLESSURE" || nextCase.type === "BLESSURE_MUR") {
+          if (nextCase.type === "BLESSURE" || nextCase.type === "BLESSURE_MUR" || nextCase.type === "DUREE_WITH_INTRO") {
             jeu1GameState = "INJURY_INTRO";
+            setupJeu1UI();
           } else {
-            jeu1GameState = "CHALLENGE_VIEW";
+            openPedagogyModal();
           }
-          setupJeu1UI();
         }
       }
       else if (jeu1GameState === "PENALTY_SCREEN") {
@@ -1255,8 +1974,7 @@
         jeu1CurrentCase = caseInfo.targetCase || 6;
         jeu1SubTour = 1;
         jeu1Step = 1;
-        jeu1GameState = "CHALLENGE_VIEW";
-        setupJeu1UI();
+        openPedagogyModal();
       }
     }
 
@@ -1304,8 +2022,7 @@
 
           if (caseInfo.type === "DOUBLE_DUREE" && jeu1SubTour === 1) {
             jeu1SubTour = 2;
-            jeu1GameState = "CHALLENGE_VIEW";
-            setupJeu1UI();
+            openPedagogyModal();
           } else {
             if (jeu1CurrentCase === 1) {
               jeu1GameState = "TIMER_FINISHED_CAN_ROLL";
@@ -1341,7 +2058,22 @@
       diceAnimBox.classList.remove('hidden');
       diceScoreBox.classList.add('hidden');
 
-      const roll = Math.floor(Math.random() * 6) + 1;
+      let roll = 1;
+      if (currentAthlete.isRandom) {
+        if (jeu1CurrentCase < 37) {
+          roll = Math.floor(Math.random() * 6) + 1;
+        } else {
+          roll = 1;
+        }
+      } else {
+        if (presetStepIndex < currentAthlete.sequence.length && jeu1CurrentCase < 37) {
+          roll = currentAthlete.sequence[presetStepIndex];
+          presetStepIndex++;
+        } else {
+          roll = 1;
+        }
+      }
+
       jeu1LastRoll = roll;
 
       let animCount = 0;
@@ -1354,7 +2086,6 @@
 
           jeu1CurrentCase += roll;
 
-          // RÈGLE SÉCURITÉ : Le niveau Débutant ne tombe JAMAIS sur les cases 12 & 21 (pénalités)
           if (jeu1SelectedLevel === 'debutant' && jeu1CurrentCase === 12) {
             jeu1CurrentCase = 13;
           }
@@ -1365,7 +2096,13 @@
 
           jeu1SubTour = 1;
           jeu1Step = 1;
-          jeu1GameState = "DICE_ROLLED";
+
+          const nextCase = getJeu1CaseInfo(jeu1CurrentCase);
+          if (nextCase.type === "BLESSURE" || nextCase.type === "BLESSURE_MUR" || nextCase.type === "DUREE_WITH_INTRO") {
+            jeu1GameState = "INJURY_INTRO";
+          } else {
+            jeu1GameState = "DICE_ROLLED";
+          }
 
           diceAnimBox.classList.add('hidden');
           diceScoreBox.classList.remove('hidden');
